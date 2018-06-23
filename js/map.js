@@ -163,8 +163,8 @@ var getCoordinate = function (x, y) {
 };
 
 var renderMapPin = function (pinItem) {
-  var elementTemplate = dom.template;
-  var pinTemplate = elementTemplate.content.querySelector('.map__pin');
+  var elementTemplate = dom.template.content;
+  var pinTemplate = elementTemplate.querySelector('.map__pin');
 
   var pinElement = pinTemplate.cloneNode(true);
   var coordinate = getCoordinate(pinItem.location.x, pinItem.location.y);
@@ -241,8 +241,8 @@ function getTemplatesElement(parent) {
 }
 
 var renderCard = function (element) {
-  var elementTemplate = dom.template;
-  var cardTemplate = elementTemplate.content.querySelector('.map__card');
+  var elementTemplate = dom.template.content;
+  var cardTemplate = elementTemplate.querySelector('.map__card');
 
   var card = cardTemplate.cloneNode(true);
   var cardTemplatesElement = getTemplatesElement(card);
