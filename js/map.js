@@ -88,9 +88,9 @@ var getRandomElement = function (array) {
   return randomElement;
 };
 
-var getRandomFeatures = function (featuresArray) {
+var featuresArrayOriginal = FEATURES.slice();
 
-  console.log(featuresArray);
+var getRandomFeatures = function (featuresArray) {
   var shuffleFeaturesArray = shuffleArray(featuresArray);
   var featuresLength = getRandomNumber(1, featuresArray.length);
   var features = [];
@@ -98,19 +98,16 @@ var getRandomFeatures = function (featuresArray) {
     features.push(shuffleFeaturesArray[i]);
   }
 
-  // console.log(features);
-
-  for (var i = 0; i < featuresArray.length; i++) {
-    var sortfeatures = [];
-    for (var j = 0; j < features.length; j++)
-      if (featuresArray[i] === features[j]) {
-        sortfeatures.push(featuresArray[i]);
-      }
+  var sortfeatures = [];
+  for ( i = 0; i < featuresArrayOriginal.length; i++) {
+    if (features.some(function (element) {
+      return element === featuresArrayOriginal[i];
+    })) {
+      sortfeatures.push(featuresArrayOriginal[i]);
+    }
   }
-
   return sortfeatures;
 };
-
 
 var getMapPin = function (numberHouse) {
   var locationX = getRandomNumber(MIN_X, MAX_X);
@@ -280,7 +277,7 @@ var render = function () {
 
   renderMapPins(mapPinsArray);
   renderCard(mapPinsArray[0]);
-}
+};
 
 var blockMap = document.querySelector('.map');
 blockMap.classList.remove('map--faded');
