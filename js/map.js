@@ -58,6 +58,8 @@ var MAX_Y = 630;
 var PIN_WIDTH = 50;
 var PIN_HEIGTH = 70;
 
+var shuffledOfferTitles = shuffleArray(OFFER_TITLE);
+
 var getRandomNumber = function (min, max) {
   return Math.floor(Math.random() * ((max + 1) - min)) + min;
 };
@@ -87,26 +89,40 @@ var getRandomElement = function (array) {
 };
 
 var getRandomFeatures = function (featuresArray) {
+
+  console.log(featuresArray);
   var shuffleFeaturesArray = shuffleArray(featuresArray);
   var featuresLength = getRandomNumber(1, featuresArray.length);
   var features = [];
   for (var i = 0; i < featuresLength; i++) {
     features.push(shuffleFeaturesArray[i]);
   }
-  return features;
+
+  // console.log(features);
+
+  for (var i = 0; i < featuresArray.length; i++) {
+    var sortfeatures = [];
+    for (var j = 0; j < features.length; j++)
+      if (featuresArray[i] === features[j]) {
+        sortfeatures.push(featuresArray[i]);
+      }
+  }
+
+  return sortfeatures;
 };
+
 
 var getMapPin = function (numberHouse) {
   var locationX = getRandomNumber(MIN_X, MAX_X);
   var locationY = getRandomNumber(MIN_Y, MAX_Y);
 
-  var objectItem = {
+  return {
     author: {
       avatar: 'img/avatars/user0' + numberHouse + '.png'
     },
 
     offer: {
-      title: OFFER_TITLE[numberHouse - 1],
+      title: shuffledOfferTitles[numberHouse - 1],
       address: locationX + ', ' + locationY,
       price: getRandomNumber(MIN_PRICE, MAX_PRICE),
       type: TYPE[getRandomElement(TYPE)],
@@ -124,12 +140,9 @@ var getMapPin = function (numberHouse) {
       y: locationY
     }
   };
-
-  return objectItem;
 };
 
 var getMapPinsArray = function (numberPins) {
-  OFFER_TITLE = shuffleArray(OFFER_TITLE);
   var randomArray = getRandomArray(numberPins, 1, numberPins);
   var mapPinsArray = [];
   for (var i = 0; i < OBJECT_NUMBER; i++) {
@@ -138,8 +151,6 @@ var getMapPinsArray = function (numberPins) {
   }
   return mapPinsArray;
 };
-
-var mapPinsArray = getMapPinsArray(OBJECT_NUMBER);
 
 function getDomElements() {
   return {
@@ -150,11 +161,6 @@ function getDomElements() {
   };
 }
 
-var dom = getDomElements();
-
-var blockMap = dom.map;
-blockMap.classList.remove('map--faded');
-
 var getCoordinate = function (x, y) {
   return {
     x: Math.round(x - PIN_WIDTH / 2),
@@ -163,6 +169,7 @@ var getCoordinate = function (x, y) {
 };
 
 var renderMapPin = function (pinItem) {
+  var dom = getDomElements();
   var elementTemplate = dom.template.content;
   var pinTemplate = elementTemplate.querySelector('.map__pin');
 
@@ -177,19 +184,17 @@ var renderMapPin = function (pinItem) {
   return pinElement;
 };
 
-
-var renderMapPins = function () {
+var renderMapPins = function (array) {
+  var dom = getDomElements();
   var pinList = dom.pins;
   var fragment = document.createDocumentFragment();
 
-  for (var i = 0; i < mapPinsArray.length; i++) {
-    fragment.appendChild(renderMapPin(mapPinsArray[i]));
+  for (var i = 0; i < array.length; i++) {
+    fragment.appendChild(renderMapPin(array[i]));
   }
 
   pinList.appendChild(fragment);
 };
-
-renderMapPins();
 
 var typeArray = {
   'palace': 'Дворец',
@@ -241,18 +246,22 @@ function getTemplatesElement(parent) {
 }
 
 var renderCard = function (element) {
+  var dom = getDomElements();
   var elementTemplate = dom.template.content;
   var cardTemplate = elementTemplate.querySelector('.map__card');
 
   var card = cardTemplate.cloneNode(true);
   var cardTemplatesElement = getTemplatesElement(card);
 
+  var checkTime = 'Заезд после ' + element.offer.checkin + ', выезд до ' + element.offer.checkout;
+  var capacity = element.offer.rooms + ' комнаты для ' + element.offer.guests + ' гостей';
+
   cardTemplatesElement.popupAvatar.src = element.author.avatar;
   cardTemplatesElement.title.textContent = element.offer.title;
   cardTemplatesElement.price.textContent = element.offer.price + '₽/ночь';
   cardTemplatesElement.typeHouse.textContent = typeArray[element.offer.type];
-  cardTemplatesElement.capacity.textContent = element.offer.rooms + ' комнаты для ' + element.offer.guests + ' гостей';
-  cardTemplatesElement.time.textContent = 'Заезд после ' + element.offer.checkin + ', выезд до ' + element.offer.checkout;
+  cardTemplatesElement.capacity.textContent = capacity;
+  cardTemplatesElement.time.textContent = checkTime;
   cardTemplatesElement.features.textContent = '';
   cardTemplatesElement.features.appendChild(renderFeatures(element.offer.features));
   cardTemplatesElement.popupPhotos.textContent = '';
@@ -266,6 +275,14 @@ var renderCard = function (element) {
 
 };
 
-renderCard(mapPinsArray[0]);
+var render = function () {
+  var mapPinsArray = getMapPinsArray(OBJECT_NUMBER);
 
+  renderMapPins(mapPinsArray);
+  renderCard(mapPinsArray[0]);
+}
+
+var blockMap = document.querySelector('.map');
+blockMap.classList.remove('map--faded');
+render();
 
