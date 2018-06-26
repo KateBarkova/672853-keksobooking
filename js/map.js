@@ -101,7 +101,7 @@ var getRandomFeatures = function (featuresArray) {
   }
 
   var sortfeatures = [];
-  for ( i = 0; i < featuresArrayOriginal.length; i++) {
+  for (i = 0; i < featuresArrayOriginal.length; i++) {
     if (features.some(function (element) {
       return element === featuresArrayOriginal[i];
     })) {
@@ -181,10 +181,6 @@ var renderMapPin = function (pinItem) {
   pinElement.querySelector('img').alt = pinItem.offer.description;
 
   pinElement.addEventListener('click', function () {
-    var card = map.querySelector('.map__card');
-    if (card) {
-      card.remove();
-    }
     renderCard(pinItem);
   });
 
@@ -223,11 +219,12 @@ var renderFeatures = function (features) {
 
 var renderPhotos = function (photos) {
   var photosFragment = document.createDocumentFragment();
+  var photoarray = shuffleArray(photos);
 
   for (var i = 0; i < photos.length; i++) {
     var photoItem = document.createElement('img');
     photoItem.classList.add('popup__photo');
-    photoItem.src = photos[i];
+    photoItem.src = photoarray[i];
     photoItem.style.width = '45px';
     photoItem.style.height = '40px';
     photoItem.alt = 'Фото жилья';
@@ -253,7 +250,16 @@ function getTemplatesElement(parent) {
   };
 }
 
+var removeCard = function () {
+  var card = map.querySelector('.map__card');
+  if (card) {
+    card.remove();
+  }
+};
+
 var renderCard = function (element) {
+  removeCard();
+
   var dom = getDomElements();
   var elementTemplate = dom.template.content;
   var cardTemplate = elementTemplate.querySelector('.map__card');
@@ -286,55 +292,54 @@ var renderCard = function (element) {
   });
 };
 
-var render = function () {
-  var mapPinsArray = getMapPinsArray(OBJECT_NUMBER);
-
-  renderMapPins(mapPinsArray);
-
-};
-
 // 1. Активация страницы
 
-  var mainMapPin = document.querySelector('.map__pin--main');
-  var map = document.querySelector('.map');
-  var form = document.querySelector('.ad-form');
-  var address = document.querySelector('#address');
-  var fieldsets = document.querySelectorAll('fieldset');
+var mainMapPin = document.querySelector('.map__pin--main');
+var map = document.querySelector('.map');
+var form = document.querySelector('.ad-form');
+var address = document.querySelector('#address');
+var fieldsets = document.querySelectorAll('fieldset');
 
-var changeStateFieldset = function(fieldsets, state) {
-  Object.keys(fieldsets).forEach(function (index) {
-    fieldsets[index].disabled = state;
+var changeStateFieldset = function (fieldset, state) {
+  Object.keys(fieldset).forEach(function (index) {
+    fieldset[index].disabled = state;
   });
-}
-
-var getBeginAddress = function (widthPin, heightPin) {
-  return Math.ceil(mainMapPin.offsetLeft + widthPin / 2) + ', ' + Math.ceil(mainMapPin.offsetTop + heightPin / 2);
-}
-
-var getBeginStates = function() {
-  changeStateFieldset(fieldsets, true);
-  address.value = getBeginAddress(MAIN_PIN_WIDTH, MAIN_PIN_WIDTH);
-}
-
-var getAddress = function (widthPin, heightPin) {
-  return Math.ceil(mainMapPin.offsetLeft + widthPin / 2) + ', ' + Math.ceil(mainMapPin.offsetTop + heightPin);
-}
-
-var getActiveState = function () {
-  map.classList.remove('map--faded');
-  form.classList.remove('ad-form--disabled');
-  address.value = getAddress(MAIN_PIN_WIDTH, MAIN_PIN_HEIGTH);
-  changeStateFieldset(fieldsets, false);
-  address.disabled = true;
-
-  var mapPinsArray = getMapPinsArray(OBJECT_NUMBER);
-  renderMapPins(mapPinsArray);
 };
 
-getBeginStates();
+var getBeginAddress = function (widthPin, heightPin) {
+  var positionX = Math.round(mainMapPin.offsetLeft + widthPin / 2);
+  var positionY = Math.round(mainMapPin.offsetTop + heightPin / 2);
+  return positionX + ', ' + positionY;
+};
 
-mainMapPin.addEventListener('mouseup', function () {
+var setActiveForm = function () {
+  changeStateFieldset(fieldsets, true);
+  address.value = getBeginAddress(MAIN_PIN_WIDTH, MAIN_PIN_WIDTH);
+};
+
+var getAddress = function (widthPin, heightPin) {
+  var positionX = Math.round(mainMapPin.offsetLeft + widthPin / 2);
+  var positionY = Math.round(mainMapPin.offsetTop + heightPin);
+  return positionX + ', ' + positionY;
+};
+
+var getActiveState = function () {
   if (map.classList.contains('map--faded')) {
-    getActiveState();
+    map.classList.remove('map--faded');
+    form.classList.remove('ad-form--disabled');
+    address.value = getAddress(MAIN_PIN_WIDTH, MAIN_PIN_HEIGTH);
+    changeStateFieldset(fieldsets, false);
+    var mapPinsArray = getMapPinsArray(OBJECT_NUMBER);
+    renderMapPins(mapPinsArray);
   }
-});
+};
+
+var render = function () {
+  setActiveForm();
+
+  mainMapPin.addEventListener('mouseup', function () {
+    getActiveState();
+  });
+};
+
+render();
