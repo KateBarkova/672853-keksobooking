@@ -57,6 +57,8 @@ var MAX_Y = 630;
 
 var PIN_WIDTH = 50;
 var PIN_HEIGTH = 70;
+var MAIN_PIN_WIDTH = 65;
+var MAIN_PIN_HEIGTH = 87;
 
 var shuffledOfferTitles = shuffleArray(OFFER_TITLE);
 
@@ -178,6 +180,14 @@ var renderMapPin = function (pinItem) {
   pinElement.querySelector('img').src = pinItem.author.avatar;
   pinElement.querySelector('img').alt = pinItem.offer.description;
 
+  pinElement.addEventListener('click', function () {
+    var card = map.querySelector('.map__card');
+    if (card) {
+      card.remove();
+    }
+    renderCard(pinItem);
+  });
+
   return pinElement;
 };
 
@@ -239,6 +249,7 @@ function getTemplatesElement(parent) {
     capacity: parent.querySelector('.popup__text--capacity'),
     time: parent.querySelector('.popup__text--time'),
     description: parent.querySelector('.popup__description'),
+    closeButton: parent.querySelector('.popup__close'),
   };
 }
 
@@ -270,16 +281,60 @@ var renderCard = function (element) {
   cardFragment.appendChild(card);
   dom.map.insertBefore(cardFragment, dom.mapFilters);
 
+  cardTemplatesElement.closeButton.addEventListener('click', function () {
+    card.remove();
+  });
 };
 
 var render = function () {
   var mapPinsArray = getMapPinsArray(OBJECT_NUMBER);
 
   renderMapPins(mapPinsArray);
-  renderCard(mapPinsArray[0]);
+
 };
 
-var blockMap = document.querySelector('.map');
-blockMap.classList.remove('map--faded');
-render();
+// 1. Активация страницы
 
+  var mainMapPin = document.querySelector('.map__pin--main');
+  var map = document.querySelector('.map');
+  var form = document.querySelector('.ad-form');
+  var address = document.querySelector('#address');
+  var fieldsets = document.querySelectorAll('fieldset');
+
+var changeStateFieldset = function(fieldsets, state) {
+  Object.keys(fieldsets).forEach(function (index) {
+    fieldsets[index].disabled = state;
+  });
+}
+
+var getBeginAddress = function (widthPin, heightPin) {
+  return Math.ceil(mainMapPin.offsetLeft + widthPin / 2) + ', ' + Math.ceil(mainMapPin.offsetTop + heightPin / 2);
+}
+
+var getBeginStates = function() {
+  changeStateFieldset(fieldsets, true);
+  address.value = getBeginAddress(MAIN_PIN_WIDTH, MAIN_PIN_WIDTH);
+}
+
+var getAddress = function (widthPin, heightPin) {
+  return Math.ceil(mainMapPin.offsetLeft + widthPin / 2) + ', ' + Math.ceil(mainMapPin.offsetTop + heightPin);
+}
+
+var getActiveState = function () {
+  map.classList.remove('map--faded');
+  form.classList.remove('ad-form--disabled');
+  address.value = getAddress(MAIN_PIN_WIDTH, MAIN_PIN_HEIGTH);
+  changeStateFieldset(fieldsets, false);
+  address.disabled = true;
+
+  var mapPinsArray = getMapPinsArray(OBJECT_NUMBER);
+  renderMapPins(mapPinsArray);
+};
+
+getBeginStates();
+
+mainMapPin.addEventListener('mouseup', function () {
+  if (map.classList.contains('map--faded')) {
+    getActiveState();
+  }
+});
