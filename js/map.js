@@ -101,11 +101,11 @@ var getRandomFeatures = function (featuresArray) {
   }
 
   var sortfeatures = [];
-  for (i = 0; i < featuresArrayOriginal.length; i++) {
+  for (var j = 0; j < featuresArrayOriginal.length; j++) {
     if (features.some(function (element) {
-      return element === featuresArrayOriginal[i];
+      return element === featuresArrayOriginal[j];
     })) {
-      sortfeatures.push(featuresArrayOriginal[i]);
+      sortfeatures.push(featuresArrayOriginal[j]);
     }
   }
   return sortfeatures;
@@ -131,7 +131,7 @@ var getMapPin = function (numberHouse) {
       checkout: CHECK_TIME[getRandomElement(CHECK_TIME)],
       features: getRandomFeatures(FEATURES),
       description: '',
-      photos: shuffleArray(PHOTOS)
+      photos: shuffleArray(PHOTOS.slice())
     },
 
     location: {
@@ -222,12 +222,11 @@ var renderFeatures = function (features) {
 
 var renderPhotos = function (photos) {
   var photosFragment = document.createDocumentFragment();
-  var photoarray = shuffleArray(photos);
 
   for (var i = 0; i < photos.length; i++) {
     var photoItem = document.createElement('img');
     photoItem.classList.add('popup__photo');
-    photoItem.src = photoarray[i];
+    photoItem.src = photos[i];
     photoItem.style.width = '45px';
     photoItem.style.height = '40px';
     photoItem.alt = 'Фото жилья';
@@ -303,24 +302,17 @@ var changeStateFieldset = function (fieldset, state) {
   });
 };
 
-var getBeginAddress = function (widthPin, heightPin) {
+var getAddress = function (widthPin, heightPin) {
   var mainMapPin = document.querySelector('.map__pin--main');
   var positionX = Math.round(mainMapPin.offsetLeft + widthPin / 2);
-  var positionY = Math.round(mainMapPin.offsetTop + heightPin / 2);
+  var positionY = Math.round(mainMapPin.offsetTop + heightPin);
   return positionX + ', ' + positionY;
 };
 
 var setActiveForm = function () {
   var dom = getDomElements();
   changeStateFieldset(dom.fieldsets, true);
-  dom.address.value = getBeginAddress(MAIN_PIN_WIDTH, MAIN_PIN_WIDTH);
-};
-
-var getAddress = function (widthPin, heightPin) {
-  var mainMapPin = document.querySelector('.map__pin--main');
-  var positionX = Math.round(mainMapPin.offsetLeft + widthPin / 2);
-  var positionY = Math.round(mainMapPin.offsetTop + heightPin);
-  return positionX + ', ' + positionY;
+  dom.address.value = getAddress(MAIN_PIN_WIDTH, MAIN_PIN_WIDTH / 2);
 };
 
 var getActiveState = function () {
