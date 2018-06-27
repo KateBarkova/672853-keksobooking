@@ -57,6 +57,8 @@ var MAX_Y = 630;
 
 var PIN_WIDTH = 50;
 var PIN_HEIGTH = 70;
+var MAIN_PIN_WIDTH = 65;
+var MAIN_PIN_HEIGTH = 87;
 
 var shuffledOfferTitles = shuffleArray(OFFER_TITLE);
 
@@ -99,11 +101,11 @@ var getRandomFeatures = function (featuresArray) {
   }
 
   var sortfeatures = [];
-  for ( i = 0; i < featuresArrayOriginal.length; i++) {
+  for (var j = 0; j < featuresArrayOriginal.length; j++) {
     if (features.some(function (element) {
-      return element === featuresArrayOriginal[i];
+      return element === featuresArrayOriginal[j];
     })) {
-      sortfeatures.push(featuresArrayOriginal[i]);
+      sortfeatures.push(featuresArrayOriginal[j]);
     }
   }
   return sortfeatures;
@@ -129,7 +131,7 @@ var getMapPin = function (numberHouse) {
       checkout: CHECK_TIME[getRandomElement(CHECK_TIME)],
       features: getRandomFeatures(FEATURES),
       description: '',
-      photos: shuffleArray(PHOTOS)
+      photos: shuffleArray(PHOTOS.slice())
     },
 
     location: {
@@ -154,7 +156,10 @@ function getDomElements() {
     map: document.querySelector('.map'),
     pins: document.querySelector('.map__pins'),
     template: document.querySelector('template'),
-    mapFilters: document.querySelector('.map__filters-container')
+    mapFilters: document.querySelector('.map__filters-container'),
+    form: document.querySelector('.ad-form'),
+    address: document.querySelector('#address'),
+    fieldsets: document.querySelectorAll('fieldset')
   };
 }
 
@@ -177,6 +182,10 @@ var renderMapPin = function (pinItem) {
   pinElement.style.top = coordinate.y + 'px';
   pinElement.querySelector('img').src = pinItem.author.avatar;
   pinElement.querySelector('img').alt = pinItem.offer.description;
+
+  pinElement.addEventListener('click', function () {
+    renderCard(pinItem);
+  });
 
   return pinElement;
 };
@@ -239,10 +248,20 @@ function getTemplatesElement(parent) {
     capacity: parent.querySelector('.popup__text--capacity'),
     time: parent.querySelector('.popup__text--time'),
     description: parent.querySelector('.popup__description'),
+    closeButton: parent.querySelector('.popup__close'),
   };
 }
 
+var removeCard = function () {
+  var card = document.querySelector('.map__card');
+  if (card) {
+    card.remove();
+  }
+};
+
 var renderCard = function (element) {
+  removeCard();
+
   var dom = getDomElements();
   var elementTemplate = dom.template.content;
   var cardTemplate = elementTemplate.querySelector('.map__card');
@@ -270,16 +289,52 @@ var renderCard = function (element) {
   cardFragment.appendChild(card);
   dom.map.insertBefore(cardFragment, dom.mapFilters);
 
+  cardTemplatesElement.closeButton.addEventListener('click', function () {
+    card.remove();
+  });
+};
+
+// 1. Активация страницы
+
+var changeStateFieldset = function (fieldset, state) {
+  Object.keys(fieldset).forEach(function (index) {
+    fieldset[index].disabled = state;
+  });
+};
+
+var getAddress = function (widthPin, heightPin) {
+  var mainMapPin = document.querySelector('.map__pin--main');
+  var positionX = Math.round(mainMapPin.offsetLeft + widthPin / 2);
+  var positionY = Math.round(mainMapPin.offsetTop + heightPin);
+  return positionX + ', ' + positionY;
+};
+
+var setActiveForm = function () {
+  var dom = getDomElements();
+  changeStateFieldset(dom.fieldsets, true);
+  dom.address.value = getAddress(MAIN_PIN_WIDTH, MAIN_PIN_WIDTH / 2);
+};
+
+var getActiveState = function () {
+  var dom = getDomElements();
+
+  if (dom.map.classList.contains('map--faded')) {
+    dom.map.classList.remove('map--faded');
+    dom.form.classList.remove('ad-form--disabled');
+    dom.address.value = getAddress(MAIN_PIN_WIDTH, MAIN_PIN_HEIGTH);
+    changeStateFieldset(dom.fieldsets, false);
+
+    var mapPinsArray = getMapPinsArray(OBJECT_NUMBER);
+    renderMapPins(mapPinsArray);
+  }
 };
 
 var render = function () {
-  var mapPinsArray = getMapPinsArray(OBJECT_NUMBER);
+  var mainMapPin = document.querySelector('.map__pin--main');
 
-  renderMapPins(mapPinsArray);
-  renderCard(mapPinsArray[0]);
+  setActiveForm();
+
+  mainMapPin.addEventListener('mouseup', getActiveState);
 };
 
-var blockMap = document.querySelector('.map');
-blockMap.classList.remove('map--faded');
 render();
-
