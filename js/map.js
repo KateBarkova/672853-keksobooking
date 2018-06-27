@@ -156,7 +156,10 @@ function getDomElements() {
     map: document.querySelector('.map'),
     pins: document.querySelector('.map__pins'),
     template: document.querySelector('template'),
-    mapFilters: document.querySelector('.map__filters-container')
+    mapFilters: document.querySelector('.map__filters-container'),
+    form: document.querySelector('.ad-form'),
+    address: document.querySelector('#address'),
+    fieldsets: document.querySelectorAll('fieldset')
   };
 }
 
@@ -251,7 +254,7 @@ function getTemplatesElement(parent) {
 }
 
 var removeCard = function () {
-  var card = map.querySelector('.map__card');
+  var card = document.querySelector('.map__card');
   if (card) {
     card.remove();
   }
@@ -294,12 +297,6 @@ var renderCard = function (element) {
 
 // 1. Активация страницы
 
-var mainMapPin = document.querySelector('.map__pin--main');
-var map = document.querySelector('.map');
-var form = document.querySelector('.ad-form');
-var address = document.querySelector('#address');
-var fieldsets = document.querySelectorAll('fieldset');
-
 var changeStateFieldset = function (fieldset, state) {
   Object.keys(fieldset).forEach(function (index) {
     fieldset[index].disabled = state;
@@ -307,39 +304,45 @@ var changeStateFieldset = function (fieldset, state) {
 };
 
 var getBeginAddress = function (widthPin, heightPin) {
+  var mainMapPin = document.querySelector('.map__pin--main');
   var positionX = Math.round(mainMapPin.offsetLeft + widthPin / 2);
   var positionY = Math.round(mainMapPin.offsetTop + heightPin / 2);
   return positionX + ', ' + positionY;
 };
 
 var setActiveForm = function () {
-  changeStateFieldset(fieldsets, true);
-  address.value = getBeginAddress(MAIN_PIN_WIDTH, MAIN_PIN_WIDTH);
+  var dom = getDomElements();
+  changeStateFieldset(dom.fieldsets, true);
+  dom.address.value = getBeginAddress(MAIN_PIN_WIDTH, MAIN_PIN_WIDTH);
 };
 
 var getAddress = function (widthPin, heightPin) {
+  var mainMapPin = document.querySelector('.map__pin--main');
   var positionX = Math.round(mainMapPin.offsetLeft + widthPin / 2);
   var positionY = Math.round(mainMapPin.offsetTop + heightPin);
   return positionX + ', ' + positionY;
 };
 
 var getActiveState = function () {
-  if (map.classList.contains('map--faded')) {
-    map.classList.remove('map--faded');
-    form.classList.remove('ad-form--disabled');
-    address.value = getAddress(MAIN_PIN_WIDTH, MAIN_PIN_HEIGTH);
-    changeStateFieldset(fieldsets, false);
+  var dom = getDomElements();
+
+  if (dom.map.classList.contains('map--faded')) {
+    dom.map.classList.remove('map--faded');
+    dom.form.classList.remove('ad-form--disabled');
+    dom.address.value = getAddress(MAIN_PIN_WIDTH, MAIN_PIN_HEIGTH);
+    changeStateFieldset(dom.fieldsets, false);
+
     var mapPinsArray = getMapPinsArray(OBJECT_NUMBER);
     renderMapPins(mapPinsArray);
   }
 };
 
 var render = function () {
+  var mainMapPin = document.querySelector('.map__pin--main');
+
   setActiveForm();
 
-  mainMapPin.addEventListener('mouseup', function () {
-    getActiveState();
-  });
+  mainMapPin.addEventListener('mouseup', getActiveState);
 };
 
 render();
