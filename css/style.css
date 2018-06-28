@@ -649,6 +649,14 @@ fieldset {
   margin-right: 14px;
 }
 
+.ad-form--invalid input:invalid {
+  border: 2px solid red;
+}
+
+.ad-form--invalid select:invalid {
+  border: 2px solid red;
+}
+
 .features legend {
   padding-bottom: 5px;
 }

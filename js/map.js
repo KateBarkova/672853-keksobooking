@@ -38,6 +38,13 @@ var PHOTOS = [
   'http://o0.github.io/assets/images/tokyo/hotel3.jpg'
 ];
 
+var ROOMS_GUESTS = {
+  0: [2],
+  1: [1, 2],
+  2: [0, 1, 2],
+  3: [3]
+};
+
 var OBJECT_NUMBER = 8;
 
 var MIN_PRICE = 1000;
@@ -160,7 +167,7 @@ function getDomElements() {
     form: document.querySelector('.ad-form'),
     address: document.querySelector('#address'),
     fieldsets: document.querySelectorAll('fieldset'),
-    popup: document.querySelector('.popup'),
+    popup: document.querySelector('.popup')
   };
 }
 
@@ -373,25 +380,18 @@ var validateFormPrice = function (element) {
   }
 };
 
-var setMinimalPrice = function(element1, element2) {
+var setMinimalPrice = function (element1, element2) {
   var selectedElement = element1.options[element1.selectedIndex].textContent;
   element2.placeholder = MIN_PRICE_HOUSE[selectedElement];
   element2.min = MIN_PRICE_HOUSE[selectedElement];
-}
+};
 
-var setChangeTime = function(element1, element2) {
+var setChangeTime = function (element1, element2) {
   var selectedElement = element1.options[element1.selectedIndex].value;
   element2.value = selectedElement;
-}
+};
 
-var ROOMS_GUESTS = {
-  0: [2],
-  1: [1, 2],
-  2: [0, 1, 2],
-  3: [3]
-}
-
-var setNumberGuest = function(rooms, guests) {
+var setNumberGuest = function (rooms, guests) {
   var selectedValue = rooms.selectedIndex;
   var selectedArray = ROOMS_GUESTS[selectedValue];
 
@@ -399,13 +399,12 @@ var setNumberGuest = function(rooms, guests) {
     guests.options[index].disabled = true;
   });
 
-  for (var i = 0; i < selectedArray.length; i ++) {
-    guests.options[selectedArray[i]].disabled = false
+  for (var i = 0; i < selectedArray.length; i++) {
+    guests.options[selectedArray[i]].disabled = false;
   }
-}
+};
 
-var validateGuests = function(rooms, guests) {
-  console.log(ROOMS_GUESTS[rooms.selectedIndex].indexOf(guests.selectedIndex));
+var validateGuests = function (rooms, guests) {
   if (ROOMS_GUESTS[rooms.selectedIndex].indexOf(guests.selectedIndex) === -1) {
     guests.valid = false;
     guests.setCustomValidity('Выберите, пожалуйста, другой вариант количества гостей');
@@ -413,9 +412,9 @@ var validateGuests = function(rooms, guests) {
     guests.valid = true;
     guests.setCustomValidity('');
   }
-}
+};
 
-var clearAll = function() {
+var clearAll = function () {
   var dom = getDomElements();
   var pinArray = dom.pins.querySelectorAll('.map__pin');
   dom.map.classList.add('map--faded');
@@ -431,19 +430,25 @@ var clearAll = function() {
     }
   });
 
+  if (dom.form.classList.contains('ad-form--invalid')) {
+    dom.form.classList.remove('ad-form--invalid');
+  }
+
   setActiveForm();
-}
+};
 
 var validateForm = function () {
   var dom = getDomElements();
-  var inputTitle = dom.form.querySelector('#title');
-  var inputPrice = dom.form.querySelector('#price');
-  var inputType = dom.form.querySelector('#type');
-  var timeIn = dom.form.querySelector('#timein');
-  var timeOut = dom.form.querySelector('#timeout');
-  var room = dom.form.querySelector('#room_number');
-  var capacity = dom.form.querySelector('#capacity');
-  var resetButton = dom.form.querySelector('.ad-form__reset');
+  var form = dom.form;
+  var inputTitle = form.querySelector('#title');
+  var inputPrice = form.querySelector('#price');
+  var inputType = form.querySelector('#type');
+  var timeIn = form.querySelector('#timein');
+  var timeOut = form.querySelector('#timeout');
+  var room = form.querySelector('#room_number');
+  var capacity = form.querySelector('#capacity');
+  var resetButton = form.querySelector('.ad-form__reset');
+  var submitButton = form.querySelector('.ad-form__submit');
 
   inputTitle.addEventListener('invalid', function () {
     validateFormTitle(inputTitle);
@@ -457,7 +462,7 @@ var validateForm = function () {
     validateFormPrice(inputPrice);
   });
 
-    inputPrice.addEventListener('input', function () {
+  inputPrice.addEventListener('input', function () {
     validateFormPrice(inputPrice);
   });
 
@@ -485,9 +490,16 @@ var validateForm = function () {
     validateGuests(room, capacity);
   });
 
-  resetButton.addEventListener('click', function () {
+  resetButton.addEventListener('click', function (evt) {
+    evt.preventDefault();
+    dom.form.reset();
     clearAll();
   });
-}
+
+  submitButton.addEventListener('click', function () {
+    form.classList.add('ad-form--invalid');
+  });
+
+};
 
 validateForm();
