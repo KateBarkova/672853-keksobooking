@@ -435,7 +435,7 @@ var clearAll = function () {
   if (dom.form.classList.contains('ad-form--invalid')) {
     dom.form.classList.remove('ad-form--invalid');
   }
-  movePinToStart()
+  movePinToStart();
   setActiveForm();
 };
 
@@ -538,7 +538,7 @@ function movePin() {
       var endCoords = {
         x: MainPin.offsetLeft - shift.x,
         y: MainPin.offsetTop - shift.y
-      }
+      };
 
       if (endCoords.x > maxLeft) {
         endCoords.x = maxLeft;
@@ -555,7 +555,6 @@ function movePin() {
       MainPin.style.top = endCoords.y + 'px';
       MainPin.style.left = endCoords.x + 'px';
       dom.address.value = getAddress(MAIN_PIN_WIDTH, MAIN_PIN_HEIGTH);
-      console.log(endCoords.y);
     };
 
     var onMouseUp = function (upEvt) {
