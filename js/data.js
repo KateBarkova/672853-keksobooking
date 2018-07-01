@@ -40,8 +40,6 @@ window.data = (function () {
     'http://o0.github.io/assets/images/tokyo/hotel3.jpg'
   ];
 
-  var OBJECT_NUMBER = 8;
-
   var MIN_PRICE = 1000;
   var MAX_PRICE = 1000000;
 
@@ -113,7 +111,7 @@ window.data = (function () {
     getMapPinsArray: function (numberPins) {
       var randomArray = window.utils.getRandomArray(numberPins, 1, numberPins);
       var mapPinsArray = [];
-      for (var i = 0; i < OBJECT_NUMBER; i++) {
+      for (var i = 0; i < numberPins; i++) {
         var pin = getMapPin(randomArray[i]);
         mapPinsArray.push(pin);
       }
