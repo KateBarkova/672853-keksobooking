@@ -27,8 +27,7 @@
     },
 
     getRandomElement: function (array) {
-      var randomElement = Math.floor(Math.random() * array.length);
-      return randomElement;
+      return Math.floor(Math.random() * array.length);
     },
   };
 

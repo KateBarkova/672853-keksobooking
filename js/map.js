@@ -35,7 +35,7 @@
       changeStateFieldset(dom.fieldsets, false);
 
       var mapPinsArray = window.data.getMapPinsArray(OBJECT_NUMBER);
-      window.pin.renderMapPins(mapPinsArray);
+      window.pins.renderMapPins(mapPinsArray);
     }
   };
 
@@ -45,7 +45,7 @@
     setActiveForm();
 
     mainMapPin.addEventListener('mousedown', function (evt) {
-      window.pin.movePin(evt);
+      window.mainPin.movePin(evt);
       getActiveState();
     });
   };

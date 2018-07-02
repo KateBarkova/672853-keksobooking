@@ -93,7 +93,7 @@ window.form = (function () {
     if (dom.form.classList.contains('ad-form--invalid')) {
       dom.form.classList.remove('ad-form--invalid');
     }
-    window.pin.movePinToStart();
+    window.mainPin.movePinToStart();
     window.map.setActiveForm();
   };
 
