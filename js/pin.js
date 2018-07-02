@@ -1,6 +1,6 @@
 'use strict';
 
-window.pin = (function () {
+(function () {
 
   var MIN_Y = 130;
   var MAX_Y = 630;
@@ -66,7 +66,55 @@ window.pin = (function () {
     return {x: coordinateX, y: coordinateY};
   };
 
-  return {
+  var movePin = function (evt) {
+    var dom = window.dom.getDomElements();
+    var mainPin = dom.pins.querySelector('.map__pin--main');
+
+    evt.preventDefault();
+
+    var startCoords = {
+      x: evt.clientX,
+      y: evt.clientY
+    };
+
+    var onMouseMove = function (moveEvt) {
+
+      moveEvt.preventDefault();
+
+      var shift = {
+        x: startCoords.x - moveEvt.clientX,
+        y: startCoords.y - moveEvt.clientY
+      };
+
+      startCoords = {
+        x: moveEvt.clientX,
+        y: moveEvt.clientY
+      };
+
+      var endCoords = {
+        x: mainPin.offsetLeft - shift.x,
+        y: mainPin.offsetTop - shift.y
+      };
+
+      endCoords = checkPinPosition(endCoords.x, endCoords.y);
+
+      mainPin.style.top = endCoords.y + 'px';
+      mainPin.style.left = endCoords.x + 'px';
+      dom.address.value = window.map.getAddress(MAIN_PIN_WIDTH, MAIN_PIN_HEIGTH);
+    };
+
+    var onMouseUp = function (upEvt) {
+      upEvt.preventDefault();
+
+      document.removeEventListener('mousemove', onMouseMove);
+      document.removeEventListener('mouseup', onMouseUp);
+    };
+
+    document.addEventListener('mousemove', onMouseMove);
+    document.addEventListener('mouseup', onMouseUp);
+  };
+
+  window.pin = {
 
     movePinToStart: function () {
       var mainPin = document.querySelector('.map__pin--main');
@@ -86,54 +134,7 @@ window.pin = (function () {
       pinList.appendChild(fragment);
     },
 
-    movePin: function (evt) {
-      var dom = window.dom.getDomElements();
-      var mainPin = dom.pins.querySelector('.map__pin--main');
-
-      evt.preventDefault();
-
-      var startCoords = {
-        x: evt.clientX,
-        y: evt.clientY
-      };
-
-      var onMouseMove = function (moveEvt) {
-
-        moveEvt.preventDefault();
-
-        var shift = {
-          x: startCoords.x - moveEvt.clientX,
-          y: startCoords.y - moveEvt.clientY
-        };
-
-        startCoords = {
-          x: moveEvt.clientX,
-          y: moveEvt.clientY
-        };
-
-        var endCoords = {
-          x: mainPin.offsetLeft - shift.x,
-          y: mainPin.offsetTop - shift.y
-        };
-
-        endCoords = checkPinPosition(endCoords.x, endCoords.y);
-
-        mainPin.style.top = endCoords.y + 'px';
-        mainPin.style.left = endCoords.x + 'px';
-        dom.address.value = window.map.getAddress(MAIN_PIN_WIDTH, MAIN_PIN_HEIGTH);
-      };
-
-      var onMouseUp = function (upEvt) {
-        upEvt.preventDefault();
-
-        document.removeEventListener('mousemove', onMouseMove);
-        document.removeEventListener('mouseup', onMouseUp);
-      };
-
-      document.addEventListener('mousemove', onMouseMove);
-      document.addEventListener('mouseup', onMouseUp);
-
-    }
+    movePin: movePin
   };
 
 })();

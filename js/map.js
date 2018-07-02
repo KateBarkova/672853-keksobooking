@@ -1,6 +1,6 @@
 'use strict';
 
-window.map = (function () {
+(function () {
 
   var MAIN_PIN_WIDTH = 65;
   var MAIN_PIN_HEIGTH = 87;
@@ -52,7 +52,7 @@ window.map = (function () {
 
   render();
 
-  return {
+  window.map = {
     setActiveForm: setActiveForm,
     getAddress: getAddress
   };

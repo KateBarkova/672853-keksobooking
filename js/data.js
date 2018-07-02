@@ -1,6 +1,6 @@
 'use strict';
 
-window.data = (function () {
+(function () {
 
   var OFFER_TITLE = [
     'Большая уютная квартира',
@@ -107,7 +107,7 @@ window.data = (function () {
     };
   };
 
-  return {
+  window.data = {
     getMapPinsArray: function (numberPins) {
       var randomArray = window.utils.getRandomArray(numberPins, 1, numberPins);
       var mapPinsArray = [];

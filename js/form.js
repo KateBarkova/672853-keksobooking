@@ -10,10 +10,10 @@ window.form = (function () {
   };
 
   var MIN_PRICE_HOUSE = {
-    'Бунгало': '0',
-    'Квартира': '1000',
-    'Дом': '5000',
-    'Дворец': '10000'
+    'bungalo': '0',
+    'flat': '1000',
+    'house': '5000',
+    'palace': '10000'
   };
 
   var validateFormTitle = function (element) {
@@ -41,7 +41,7 @@ window.form = (function () {
   };
 
   var setMinimalPrice = function (element1, element2) {
-    var selectedElement = element1.options[element1.selectedIndex].textContent;
+    var selectedElement = element1.options[element1.selectedIndex].value;
     element2.placeholder = MIN_PRICE_HOUSE[selectedElement];
     element2.min = MIN_PRICE_HOUSE[selectedElement];
   };

@@ -1,6 +1,6 @@
 'use strict';
 
-window.card = (function () {
+(function () {
 
   var typeArray = {
     'palace': 'Дворец',
@@ -42,7 +42,7 @@ window.card = (function () {
     }
   };
 
-  return {
+  window.card = {
     renderCard: function (element) {
       removeCard();
 

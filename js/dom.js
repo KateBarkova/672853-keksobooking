@@ -1,8 +1,8 @@
 'use strict';
 
-window.dom = (function () {
+(function () {
 
-  return {
+  window.dom = {
     getDomElements: function () {
       return {
         map: document.querySelector('.map'),

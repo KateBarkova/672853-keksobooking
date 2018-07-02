@@ -1,12 +1,12 @@
 'use strict';
 
-window.utils = (function () {
+(function () {
 
   function shuffleArrayCondition() {
     return Math.random() - 0.5;
   }
 
-  return {
+  window.utils = {
     getRandomNumber: function (min, max) {
       return Math.floor(Math.random() * ((max + 1) - min)) + min;
     },
