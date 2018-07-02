@@ -14,8 +14,8 @@
 
   window.pin = {
 
-    renderMapPin: function (pinItem) {
-      var dom = window.dom.getDomElements();
+    render: function (pinItem) {
+      var dom = window.dom.getElements();
       var elementTemplate = dom.template.content;
       var pinTemplate = elementTemplate.querySelector('.map__pin');
 
@@ -28,7 +28,7 @@
       pinElement.querySelector('img').alt = pinItem.offer.description;
 
       pinElement.addEventListener('click', function () {
-        window.card.renderCard(pinItem);
+        window.card.render(pinItem);
       });
 
       return pinElement;

@@ -43,10 +43,10 @@
   };
 
   window.card = {
-    renderCard: function (element) {
+    render: function (element) {
       removeCard();
 
-      var dom = window.dom.getDomElements();
+      var dom = window.dom.getElements();
       var elementTemplate = dom.template.content;
       var cardTemplate = elementTemplate.querySelector('.map__card');
 

@@ -13,7 +13,7 @@
   // Движение пина
 
   var checkPinPosition = function (coordinateX, coordinateY) {
-    var dom = window.dom.getDomElements();
+    var dom = window.dom.getElements();
     var minTop = MIN_Y - MAIN_PIN_HEIGTH;
     var maxTop = MAX_Y - MAIN_PIN_HEIGTH;
     var minLeft = 0;
@@ -35,7 +35,7 @@
   };
 
   var movePin = function (evt) {
-    var dom = window.dom.getDomElements();
+    var dom = window.dom.getElements();
     var mainPin = dom.pins.querySelector('.map__pin--main');
 
     evt.preventDefault();
@@ -84,13 +84,13 @@
 
   window.mainPin = {
 
-    movePinToStart: function () {
+    moveToStart: function () {
       var mainPin = document.querySelector('.map__pin--main');
       mainPin.style.top = START_PIN_Y + 'px';
       mainPin.style.left = START_PIN_X + 'px';
     },
 
-    movePin: movePin
+    move: movePin
   };
 
 })();

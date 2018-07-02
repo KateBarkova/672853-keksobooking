@@ -3,7 +3,7 @@
 (function () {
 
   window.dom = {
-    getDomElements: function () {
+    getElements: function () {
       return {
         map: document.querySelector('.map'),
         pins: document.querySelector('.map__pins'),

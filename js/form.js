@@ -75,7 +75,7 @@ window.form = (function () {
   };
 
   var clearAll = function () {
-    var dom = window.dom.getDomElements();
+    var dom = window.dom.getElements();
     var pinArray = dom.pins.querySelectorAll('.map__pin');
     dom.map.classList.add('map--faded');
     dom.form.classList.add('ad-form--disabled');
@@ -93,12 +93,12 @@ window.form = (function () {
     if (dom.form.classList.contains('ad-form--invalid')) {
       dom.form.classList.remove('ad-form--invalid');
     }
-    window.mainPin.movePinToStart();
+    window.mainPin.moveToStart();
     window.map.setActiveForm();
   };
 
   var validateForm = function () {
-    var dom = window.dom.getDomElements();
+    var dom = window.dom.getElements();
     var form = dom.form;
     var inputTitle = form.querySelector('#title');
     var inputPrice = form.querySelector('#price');

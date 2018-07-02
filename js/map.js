@@ -20,13 +20,13 @@
   };
 
   var setActiveForm = function () {
-    var dom = window.dom.getDomElements();
+    var dom = window.dom.getElements();
     changeStateFieldset(dom.fieldsets, true);
     dom.address.value = getAddress(MAIN_PIN_WIDTH, MAIN_PIN_WIDTH / 2);
   };
 
   var getActiveState = function () {
-    var dom = window.dom.getDomElements();
+    var dom = window.dom.getElements();
 
     if (dom.map.classList.contains('map--faded')) {
       dom.map.classList.remove('map--faded');
@@ -35,7 +35,7 @@
       changeStateFieldset(dom.fieldsets, false);
 
       var mapPinsArray = window.data.getMapPinsArray(OBJECT_NUMBER);
-      window.pins.renderMapPins(mapPinsArray);
+      window.pins.render(mapPinsArray);
     }
   };
 
@@ -45,7 +45,7 @@
     setActiveForm();
 
     mainMapPin.addEventListener('mousedown', function (evt) {
-      window.mainPin.movePin(evt);
+      window.mainPin.move(evt);
       getActiveState();
     });
   };
