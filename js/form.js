@@ -99,8 +99,8 @@
   };
 
   var closePopup = function () {
-    var successElement = document.querySelector('.success');
-    successElement.classList.add('hidden');
+    var successMessage = document.querySelector('.success');
+    successMessage.classList.add('hidden');
   };
 
   var onPopupEscPress = function (evt) {
@@ -112,8 +112,8 @@
   };
 
   var onSuccess = function () {
-    var successElement = document.querySelector('.success');
-    successElement.classList.remove('hidden');
+    var successMessage = document.querySelector('.success');
+    successMessage.classList.remove('hidden');
     document.addEventListener('keydown', onPopupEscPress);
     clearAll();
   };

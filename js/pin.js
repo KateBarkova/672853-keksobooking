@@ -16,22 +16,22 @@
 
     render: function (pinItem) {
       var dom = window.dom.getElements();
-      var elementTemplate = dom.template.content;
-      var pinTemplate = elementTemplate.querySelector('.map__pin');
+      var template = dom.template.content;
+      var pinTemplate = template.querySelector('.map__pin');
 
-      var pinElement = pinTemplate.cloneNode(true);
+      var pin = pinTemplate.cloneNode(true);
       var coordinate = getCoordinate(pinItem.location.x, pinItem.location.y);
 
-      pinElement.style.left = coordinate.x + 'px';
-      pinElement.style.top = coordinate.y + 'px';
-      pinElement.querySelector('img').src = pinItem.author.avatar;
-      pinElement.querySelector('img').alt = pinItem.offer.description;
+      pin.style.left = coordinate.x + 'px';
+      pin.style.top = coordinate.y + 'px';
+      pin.querySelector('img').src = pinItem.author.avatar;
+      pin.querySelector('img').alt = pinItem.offer.description;
 
-      pinElement.addEventListener('click', function () {
+      pin.addEventListener('click', function () {
         window.card.render(pinItem);
       });
 
-      return pinElement;
+      return pin;
     }
   };
 

@@ -47,33 +47,33 @@
       removeCard();
 
       var dom = window.dom.getElements();
-      var elementTemplate = dom.template.content;
-      var cardTemplate = elementTemplate.querySelector('.map__card');
+      var template = dom.template.content;
+      var cardTemplate = template.querySelector('.map__card');
 
       var card = cardTemplate.cloneNode(true);
-      var cardTemplatesElement = window.dom.getTemplatesElement(card);
+      var cardTemplate = window.dom.getTemplatesElement(card);
 
       var checkTime = 'Заезд после ' + element.offer.checkin + ', выезд до ' + element.offer.checkout;
       var capacity = element.offer.rooms + ' комнаты для ' + element.offer.guests + ' гостей';
 
-      cardTemplatesElement.popupAvatar.src = element.author.avatar;
-      cardTemplatesElement.title.textContent = element.offer.title;
-      cardTemplatesElement.price.textContent = element.offer.price + '₽/ночь';
-      cardTemplatesElement.typeHouse.textContent = typeArray[element.offer.type];
-      cardTemplatesElement.capacity.textContent = capacity;
-      cardTemplatesElement.time.textContent = checkTime;
-      cardTemplatesElement.features.textContent = '';
-      cardTemplatesElement.features.appendChild(renderFeatures(element.offer.features));
-      cardTemplatesElement.popupPhotos.textContent = '';
-      cardTemplatesElement.popupPhotos.appendChild(renderPhotos(element.offer.photos));
-      cardTemplatesElement.address.textContent = element.offer.address;
-      cardTemplatesElement.description.textContent = element.offer.description;
+      cardTemplate.popupAvatar.src = element.author.avatar;
+      cardTemplate.title.textContent = element.offer.title;
+      cardTemplate.price.textContent = element.offer.price + '₽/ночь';
+      cardTemplate.typeHouse.textContent = typeArray[element.offer.type];
+      cardTemplate.capacity.textContent = capacity;
+      cardTemplate.time.textContent = checkTime;
+      cardTemplate.features.textContent = '';
+      cardTemplate.features.appendChild(renderFeatures(element.offer.features));
+      cardTemplate.popupPhotos.textContent = '';
+      cardTemplate.popupPhotos.appendChild(renderPhotos(element.offer.photos));
+      cardTemplate.address.textContent = element.offer.address;
+      cardTemplate.description.textContent = element.offer.description;
 
       var cardFragment = document.createDocumentFragment();
       cardFragment.appendChild(card);
       dom.map.insertBefore(cardFragment, dom.mapFilters);
 
-      cardTemplatesElement.closeButton.addEventListener('click', function () {
+      cardTemplate.closeButton.addEventListener('click', function () {
         card.remove();
       });
     }
