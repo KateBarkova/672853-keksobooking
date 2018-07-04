@@ -4,7 +4,7 @@
 
   var MAIN_PIN_WIDTH = 65;
   var MAIN_PIN_HEIGTH = 87;
-  var OBJECT_NUMBER = 8;
+  // var OBJECT_NUMBER = 8;
 
   var changeStateFieldset = function (fieldset, state) {
     Object.keys(fieldset).forEach(function (index) {
@@ -33,9 +33,7 @@
       dom.form.classList.remove('ad-form--disabled');
       dom.address.value = getAddress(MAIN_PIN_WIDTH, MAIN_PIN_HEIGTH);
       changeStateFieldset(dom.fieldsets, false);
-
-      var mapPinsArray = window.data.getMapPinsArray(OBJECT_NUMBER);
-      window.pins.render(mapPinsArray);
+      window.renderPins();
     }
   };
 
