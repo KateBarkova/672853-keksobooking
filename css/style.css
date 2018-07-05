@@ -1230,8 +1230,8 @@ fieldset {
   width: 300px;
   padding: 50px 10px;
   top: 30%;
-  transform: translate(-50%);
   left: 50%;
+  transform: translate(-50%);
   background-color: #ffffff;
   color: #000000;
   font-size: 26px;

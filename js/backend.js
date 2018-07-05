@@ -1,30 +1,42 @@
 'use strict';
 
 (function () {
-  window.backend = {
+  var LOAD_TIMEOUT = 10000;
+  var ERROR_TIMEOUT = 3000;
 
+  function onXhrLoad(xhr, onLoad, onError) {
+    return function() {
+      if (xhr.status === 200) {
+        onLoad(xhr.response);
+      } else {
+        onError('Cтатус ответа: ' + xhr.status + ' ' + xhr.statusText);
+      }
+    }
+  };
+
+  function onXhrError(onError) {
+    return function() {
+      onError('Произошла ошибка соединения');
+    }
+  };
+
+  function onXhrTimeout(onError, xhr) {
+    return function() {
+      xhr.timeout = LOAD_TIMEOUT;
+      onError('Запрос не успел выполниться за ' + xhr.timeout + 'мс');
+    }
+  };
+
+
+  window.backend = {
     load: function (url, onLoad, onError) {
       var xhr = new XMLHttpRequest();
 
       xhr.responseType = 'json';
 
-      xhr.addEventListener('load', function () {
-        if (xhr.status === 200) {
-          onLoad(xhr.response);
-        } else {
-          onError('Cтатус ответа: ' + xhr.status + ' ' + xhr.statusText);
-        }
-      });
-
-      xhr.addEventListener('error', function () {
-        onError('Произошла ошибка соединения');
-      });
-
-      xhr.addEventListener('timeout', function () {
-        onError('Запрос не успел выполниться за ' + xhr.timeout + 'мс');
-      });
-
-      xhr.timeout = 10000;
+      xhr.addEventListener('load', onXhrLoad(xhr, onLoad, onError));
+      xhr.addEventListener('error', onXhrError(onError));
+      xhr.addEventListener('timeout', onXhrError(onError, xhr));
 
       xhr.open('GET', url);
       xhr.send();
@@ -67,7 +79,7 @@
       var errorMessage = pins.querySelector('.error-message');
 
       if (errorMessage) {
-        setTimeout(removeErrorMessage, 5000);
+        setTimeout(removeErrorMessage, ERROR_TIMEOUT);
       }
 
       function removeErrorMessage() {
