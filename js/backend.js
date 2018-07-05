@@ -36,7 +36,7 @@
 
       xhr.addEventListener('load', onXhrLoad(xhr, onLoad, onError));
       xhr.addEventListener('error', onXhrError(onError));
-      xhr.addEventListener('timeout', onXhrError(onError, xhr));
+      xhr.addEventListener('timeout', onXhrTimeout(onError, xhr));
 
       xhr.open('GET', url);
       xhr.send();
