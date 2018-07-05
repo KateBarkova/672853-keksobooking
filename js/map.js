@@ -4,7 +4,6 @@
 
   var MAIN_PIN_WIDTH = 65;
   var MAIN_PIN_HEIGTH = 87;
-  // var OBJECT_NUMBER = 8;
 
   var changeStateFieldset = function (fieldset, state) {
     Object.keys(fieldset).forEach(function (index) {
@@ -37,15 +36,17 @@
     }
   };
 
+  var onMainPinMousDown = function (evt) {
+    window.mainPin.move(evt);
+    getActiveState();
+  }
+
   var render = function () {
-    var mainMapPin = document.querySelector('.map__pin--main');
+    var mainPin = document.querySelector('.map__pin--main');
 
     setActiveForm();
 
-    mainMapPin.addEventListener('mousedown', function (evt) {
-      window.mainPin.move(evt);
-      getActiveState();
-    });
+    mainPin.addEventListener('mousedown', onMainPinMousDown);
   };
 
   render();

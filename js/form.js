@@ -1,6 +1,7 @@
 'use strict';
 
 (function () {
+  var ESC_KEYCODE = 27;
 
   var ROOMS_GUESTS = {
     0: [2],
@@ -28,6 +29,18 @@
     }
   };
 
+  var onTitleInvalid = function (inputTitle) {
+    return function () {
+      validateFormTitle(inputTitle);
+    }
+  };
+
+  var onTitleInput = function (inputTitle) {
+    return function () {
+      validateFormTitle(inputTitle);
+    }
+  };
+
   var validateFormPrice = function (element) {
     if (element.validity.rangeUnderflow) {
       element.setCustomValidity('Минимально допустимая стоимость для данного типа жилья - ' + element.min + ' руб.');
@@ -40,15 +53,39 @@
     }
   };
 
+  var onPriceInvalid = function (inputPrice) {
+    return function () {
+      validateFormPrice(inputPrice);
+    }
+  };
+
+  var onPriceInput = function (inputPrice) {
+    return function () {
+      validateFormPrice(inputPrice);
+    }
+  };
+
   var setMinimalPrice = function (element1, element2) {
     var selectedElement = element1.options[element1.selectedIndex].value;
     element2.placeholder = MIN_PRICE_HOUSE[selectedElement];
     element2.min = MIN_PRICE_HOUSE[selectedElement];
   };
 
+  var onTypeChange = function (inputType, inputPrice) {
+    return function () {
+      setMinimalPrice(inputType, inputPrice);
+    }
+  };
+
   var setChangeTime = function (element1, element2) {
     var selectedElement = element1.options[element1.selectedIndex].value;
     element2.value = selectedElement;
+  };
+
+  var onTimeChange = function (element1, element2) {
+    return function () {
+      setChangeTime(element1, element2)
+    }
   };
 
   var setNumberGuest = function (rooms, guests) {
@@ -71,6 +108,19 @@
     } else {
       guests.valid = true;
       guests.setCustomValidity('');
+    }
+  };
+
+  var onRoomChange = function (rooms, capacity) {
+    return function () {
+      setNumberGuest(rooms, capacity);
+      validateGuests(rooms, capacity);
+    }
+  };
+
+  var onCapacityChange = function (rooms, capacity) {
+    return function () {
+      validateGuests(rooms, capacity);
     }
   };
 
@@ -98,13 +148,19 @@
     dom.form.reset();
   };
 
+  var onResetButtonClick = function (evt) {
+    evt.preventDefault();
+    clearAll();
+  };
+
+
+
   var closePopup = function () {
     var successMessage = document.querySelector('.success');
     successMessage.classList.add('hidden');
   };
 
   var onPopupEscPress = function (evt) {
-    var ESC_KEYCODE = 27;
     if (evt.keyCode === ESC_KEYCODE) {
       closePopup();
       document.removeEventListener('keydown', onPopupEscPress);
@@ -116,77 +172,56 @@
     successMessage.classList.remove('hidden');
     document.addEventListener('keydown', onPopupEscPress);
     clearAll();
+
   };
 
   var validateForm = function () {
     var dom = window.dom.getElements();
-    var form = dom.form;
-    var inputTitle = form.querySelector('#title');
-    var inputPrice = form.querySelector('#price');
-    var inputType = form.querySelector('#type');
-    var timeIn = form.querySelector('#timein');
-    var timeOut = form.querySelector('#timeout');
-    var room = form.querySelector('#room_number');
-    var capacity = form.querySelector('#capacity');
-    var resetButton = form.querySelector('.ad-form__reset');
-    var submitButton = form.querySelector('.ad-form__submit');
+    var adForm = dom.form;
+    var form = window.dom.getFormElements(adForm);
+    var inputTitle = form.inputTitle;
+    var inputPrice = form.inputPrice;
+    var inputType = form.inputType;
+    var timeIn = form.timeIn;
+    var timeOut = form.timeOut;
+    var room = form.room;
+    var capacity = form.capacity;
+    var resetButton = form.resetButton;
+    var submitButton = form.submitButton;
 
-    inputTitle.addEventListener('invalid', function () {
-      validateFormTitle(inputTitle);
-    });
+    function onSubmitButtonClik() {
+      adForm.classList.add('ad-form--invalid');
+    }
 
-    inputTitle.addEventListener('input', function () {
-      validateFormTitle(inputTitle);
-    });
 
-    inputPrice.addEventListener('invalid', function () {
-      validateFormPrice(inputPrice);
-    });
-
-    inputPrice.addEventListener('input', function () {
-      validateFormPrice(inputPrice);
-    });
-
-    inputType.addEventListener('change', function () {
-      setMinimalPrice(inputType, inputPrice);
-    });
-
-    timeIn.addEventListener('change', function () {
-      setChangeTime(timeIn, timeOut);
-    });
-
-    timeOut.addEventListener('change', function () {
-      setChangeTime(timeOut, timeIn);
-    });
+    function onFormSubmit(evt) {
+      evt.preventDefault();
+      window.backend.upload(new FormData(adForm), onSuccess, window.backend.onError);
+    }
 
     setNumberGuest(room, capacity);
     validateGuests(room, capacity);
 
-    room.addEventListener('change', function () {
-      setNumberGuest(room, capacity);
-      validateGuests(room, capacity);
-    });
+    inputTitle.addEventListener('invalid', onTitleInvalid(inputTitle));
+    inputTitle.addEventListener('input', onTitleInput(inputTitle));
 
-    capacity.addEventListener('change', function () {
-      validateGuests(room, capacity);
-    });
+    inputPrice.addEventListener('invalid', onPriceInvalid(inputPrice));
+    inputPrice.addEventListener('input', onPriceInput(inputPrice));
 
-    resetButton.addEventListener('click', function (evt) {
-      evt.preventDefault();
-      clearAll();
-    });
+    inputType.addEventListener('change', onTypeChange(inputType, inputPrice));
 
-    submitButton.addEventListener('click', function () {
-      form.classList.add('ad-form--invalid');
-    });
+    timeIn.addEventListener('change', onTimeChange(timeIn, timeOut));
+    timeOut.addEventListener('change', onTimeChange(timeOut, timeIn))
 
-    function checkForm(evt) {
-      evt.preventDefault();
-      window.backend.upload(new FormData(form), onSuccess, window.backend.onError);
-    }
+    room.addEventListener('change', onRoomChange(room, capacity));
+    capacity.addEventListener('change', onCapacityChange(room, capacity));
 
 
-    form.addEventListener('submit', checkForm);
+    resetButton.addEventListener('click', onResetButtonClick);
+
+    submitButton.addEventListener('click', onSubmitButtonClik);
+
+    adForm.addEventListener('submit', onFormSubmit);
 
   };
 

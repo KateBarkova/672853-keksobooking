@@ -42,6 +42,10 @@
     }
   };
 
+  var onCloseButtonClick =  function () {
+    removeCard();
+  }
+
   window.card = {
     render: function (element) {
       removeCard();
@@ -51,7 +55,7 @@
       var cardTemplate = template.querySelector('.map__card');
 
       var card = cardTemplate.cloneNode(true);
-      var cardTemplate = window.dom.getTemplatesElement(card);
+      var cardTemplate = window.dom.getTemplateElements(card);
 
       var checkTime = 'Заезд после ' + element.offer.checkin + ', выезд до ' + element.offer.checkout;
       var capacity = element.offer.rooms + ' комнаты для ' + element.offer.guests + ' гостей';
@@ -73,9 +77,7 @@
       cardFragment.appendChild(card);
       dom.map.insertBefore(cardFragment, dom.mapFilters);
 
-      cardTemplate.closeButton.addEventListener('click', function () {
-        card.remove();
-      });
+      cardTemplate.closeButton.addEventListener('click', onCloseButtonClick);
     }
   };
 

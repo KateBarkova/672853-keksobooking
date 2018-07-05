@@ -16,7 +16,7 @@
       };
     },
 
-    getTemplatesElement: function (parent) {
+    getTemplateElements: function (parent) {
       return {
         mapCard: parent.querySelector('.map__card'),
         title: parent.querySelector('.popup__title'),
@@ -30,6 +30,20 @@
         time: parent.querySelector('.popup__text--time'),
         description: parent.querySelector('.popup__description'),
         closeButton: parent.querySelector('.popup__close'),
+      };
+    },
+
+    getFormElements: function (parent) {
+      return {
+        inputTitle: parent.querySelector('#title'),
+        inputPrice: parent.querySelector('#price'),
+        inputType: parent.querySelector('#type'),
+        timeIn: parent.querySelector('#timein'),
+        timeOut: parent.querySelector('#timeout'),
+        room: parent.querySelector('#room_number'),
+        capacity: parent.querySelector('#capacity'),
+        resetButton: parent.querySelector('.ad-form__reset'),
+        submitButton: parent.querySelector('.ad-form__submit'),
       };
     }
   };
