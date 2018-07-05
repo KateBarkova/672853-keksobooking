@@ -42,9 +42,9 @@
     }
   };
 
-  var onCloseButtonClick =  function () {
+  var onCloseButtonClick = function () {
     removeCard();
-  }
+  };
 
   window.card = {
     render: function (element) {
@@ -55,29 +55,29 @@
       var cardTemplate = template.querySelector('.map__card');
 
       var card = cardTemplate.cloneNode(true);
-      var cardTemplate = window.dom.getTemplateElements(card);
+      var cardItems = window.dom.getTemplateElements(card);
 
       var checkTime = 'Заезд после ' + element.offer.checkin + ', выезд до ' + element.offer.checkout;
       var capacity = element.offer.rooms + ' комнаты для ' + element.offer.guests + ' гостей';
 
-      cardTemplate.popupAvatar.src = element.author.avatar;
-      cardTemplate.title.textContent = element.offer.title;
-      cardTemplate.price.textContent = element.offer.price + '₽/ночь';
-      cardTemplate.typeHouse.textContent = typeArray[element.offer.type];
-      cardTemplate.capacity.textContent = capacity;
-      cardTemplate.time.textContent = checkTime;
-      cardTemplate.features.textContent = '';
-      cardTemplate.features.appendChild(renderFeatures(element.offer.features));
-      cardTemplate.popupPhotos.textContent = '';
-      cardTemplate.popupPhotos.appendChild(renderPhotos(element.offer.photos));
-      cardTemplate.address.textContent = element.offer.address;
-      cardTemplate.description.textContent = element.offer.description;
+      cardItems.popupAvatar.src = element.author.avatar;
+      cardItems.title.textContent = element.offer.title;
+      cardItems.price.textContent = element.offer.price + '₽/ночь';
+      cardItems.typeHouse.textContent = typeArray[element.offer.type];
+      cardItems.capacity.textContent = capacity;
+      cardItems.time.textContent = checkTime;
+      cardItems.features.textContent = '';
+      cardItems.features.appendChild(renderFeatures(element.offer.features));
+      cardItems.popupPhotos.textContent = '';
+      cardItems.popupPhotos.appendChild(renderPhotos(element.offer.photos));
+      cardItems.address.textContent = element.offer.address;
+      cardItems.description.textContent = element.offer.description;
 
       var cardFragment = document.createDocumentFragment();
       cardFragment.appendChild(card);
       dom.map.insertBefore(cardFragment, dom.mapFilters);
 
-      cardTemplate.closeButton.addEventListener('click', onCloseButtonClick);
+      cardItems.closeButton.addEventListener('click', onCloseButtonClick);
     }
   };
 

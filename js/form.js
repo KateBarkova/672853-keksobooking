@@ -32,13 +32,13 @@
   var onTitleInvalid = function (inputTitle) {
     return function () {
       validateFormTitle(inputTitle);
-    }
+    };
   };
 
   var onTitleInput = function (inputTitle) {
     return function () {
       validateFormTitle(inputTitle);
-    }
+    };
   };
 
   var validateFormPrice = function (element) {
@@ -56,13 +56,13 @@
   var onPriceInvalid = function (inputPrice) {
     return function () {
       validateFormPrice(inputPrice);
-    }
+    };
   };
 
   var onPriceInput = function (inputPrice) {
     return function () {
       validateFormPrice(inputPrice);
-    }
+    };
   };
 
   var setMinimalPrice = function (element1, element2) {
@@ -74,7 +74,7 @@
   var onTypeChange = function (inputType, inputPrice) {
     return function () {
       setMinimalPrice(inputType, inputPrice);
-    }
+    };
   };
 
   var setChangeTime = function (element1, element2) {
@@ -84,8 +84,8 @@
 
   var onTimeChange = function (element1, element2) {
     return function () {
-      setChangeTime(element1, element2)
-    }
+      setChangeTime(element1, element2);
+    };
   };
 
   var setNumberGuest = function (rooms, guests) {
@@ -115,13 +115,13 @@
     return function () {
       setNumberGuest(rooms, capacity);
       validateGuests(rooms, capacity);
-    }
+    };
   };
 
   var onCapacityChange = function (rooms, capacity) {
     return function () {
       validateGuests(rooms, capacity);
-    }
+    };
   };
 
   var clearAll = function () {
@@ -152,8 +152,6 @@
     evt.preventDefault();
     clearAll();
   };
-
-
 
   var closePopup = function () {
     var successMessage = document.querySelector('.success');
@@ -211,7 +209,7 @@
     inputType.addEventListener('change', onTypeChange(inputType, inputPrice));
 
     timeIn.addEventListener('change', onTimeChange(timeIn, timeOut));
-    timeOut.addEventListener('change', onTimeChange(timeOut, timeIn))
+    timeOut.addEventListener('change', onTimeChange(timeOut, timeIn));
 
     room.addEventListener('change', onRoomChange(room, capacity));
     capacity.addEventListener('change', onCapacityChange(room, capacity));

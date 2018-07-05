@@ -5,37 +5,37 @@
   var ERROR_TIMEOUT = 3000;
 
   function onXhrLoad(xhr, onLoad, onError) {
-    return function() {
+    return function () {
       if (xhr.status === 200) {
         onLoad(xhr.response);
       } else {
         onError('Cтатус ответа: ' + xhr.status + ' ' + xhr.statusText);
       }
-    }
-  };
+    };
+  }
 
   function onXhrError(onError) {
-    return function() {
+    return function () {
       onError('Произошла ошибка соединения');
-    }
-  };
+    };
+  }
 
   function onXhrTimeout(onError, xhr) {
-    return function() {
+    return function () {
       xhr.timeout = LOAD_TIMEOUT;
       onError('Запрос не успел выполниться за ' + xhr.timeout + 'мс');
-    }
-  };
+    };
+  }
 
   function onXhrUpLoad(xhr, onLoad, onError) {
-    return function() {
+    return function () {
       if (xhr.status === 200) {
         onLoad();
       } else {
         onError('Cтатус ответа: ' + xhr.status + ' ' + xhr.statusText);
       }
-    }
-  };
+    };
+  }
 
   window.backend = {
     load: function (url, onLoad, onError) {

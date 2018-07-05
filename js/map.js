@@ -39,7 +39,7 @@
   var onMainPinMousDown = function (evt) {
     window.mainPin.move(evt);
     getActiveState();
-  }
+  };
 
   var render = function () {
     var mainPin = document.querySelector('.map__pin--main');
