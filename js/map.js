@@ -36,7 +36,7 @@
     }
   };
 
-  var onMainPinMousDown = function (evt) {
+  var onMainPinMouseDown = function (evt) {
     window.mainPin.move(evt);
     getActiveState();
   };
@@ -46,7 +46,7 @@
 
     setActiveForm();
 
-    mainPin.addEventListener('mousedown', onMainPinMousDown);
+    mainPin.addEventListener('mousedown', onMainPinMouseDown);
   };
 
   render();

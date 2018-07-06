@@ -11,7 +11,7 @@
     var fragment = document.createDocumentFragment();
 
     for (var i = 0; i < array.length; i++) {
-      fragment.appendChild(window.pin.render(array[i]));
+      fragment.appendChild(window.renderPin(array[i]));
     }
 
     pinList.appendChild(fragment);
