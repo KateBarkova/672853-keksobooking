@@ -12,27 +12,24 @@
     };
   };
 
-  window.pin = {
+  window.renderPin = function (pinItem) {
+    var dom = window.dom.getElements();
+    var template = dom.template.content;
+    var pinTemplate = template.querySelector('.map__pin');
 
-    render: function (pinItem) {
-      var dom = window.dom.getElements();
-      var elementTemplate = dom.template.content;
-      var pinTemplate = elementTemplate.querySelector('.map__pin');
+    var pin = pinTemplate.cloneNode(true);
+    var coordinate = getCoordinate(pinItem.location.x, pinItem.location.y);
 
-      var pinElement = pinTemplate.cloneNode(true);
-      var coordinate = getCoordinate(pinItem.location.x, pinItem.location.y);
+    pin.style.left = coordinate.x + 'px';
+    pin.style.top = coordinate.y + 'px';
+    pin.querySelector('img').src = pinItem.author.avatar;
+    pin.querySelector('img').alt = pinItem.offer.description;
 
-      pinElement.style.left = coordinate.x + 'px';
-      pinElement.style.top = coordinate.y + 'px';
-      pinElement.querySelector('img').src = pinItem.author.avatar;
-      pinElement.querySelector('img').alt = pinItem.offer.description;
+    pin.addEventListener('click', function () {
+      window.renderCard(pinItem);
+    });
 
-      pinElement.addEventListener('click', function () {
-        window.card.render(pinItem);
-      });
-
-      return pinElement;
-    }
+    return pin;
   };
 
 })();

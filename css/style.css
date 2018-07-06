@@ -1224,3 +1224,21 @@ fieldset {
       -ms-transform: translateX(-50%);
           transform: translateX(-50%);
 }
+
+.error-message {
+  position: fixed;
+  width: 300px;
+  padding: 50px 10px;
+  top: 30%;
+  left: 50%;
+  transform: translate(-50%);
+  background-color: #ffffff;
+  color: #000000;
+  font-size: 26px;
+  font-weight: 700;
+  text-align: center;
+  border: 2px solid #000000;
+  border-radius: 10px;
+  box-shadow: 2px 2px 2px #000000;
+  z-index: 2;
+}

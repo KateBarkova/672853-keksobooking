@@ -2,20 +2,23 @@
 
 (function () {
 
-  window.pins = {
 
-    render: function (array) {
-      var dom = window.dom.getElements();
-      var pinList = dom.pins;
-      var fragment = document.createDocumentFragment();
+  var URL = 'https://js.dump.academy/keksobooking/data';
 
-      for (var i = 0; i < array.length; i++) {
-        fragment.appendChild(window.pin.render(array[i]));
-      }
+  function onLoad(array) {
+    var dom = window.dom.getElements();
+    var pinList = dom.pins;
+    var fragment = document.createDocumentFragment();
 
-      pinList.appendChild(fragment);
-    },
+    for (var i = 0; i < array.length; i++) {
+      fragment.appendChild(window.renderPin(array[i]));
+    }
 
+    pinList.appendChild(fragment);
+  }
+
+  window.renderPins = function () {
+    window.backend.load(URL, onLoad, window.backend.onError);
   };
 
 })();
