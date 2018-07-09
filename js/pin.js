@@ -26,7 +26,7 @@
     pin.querySelector('img').alt = pinItem.offer.description;
 
     pin.addEventListener('click', function () {
-      window.renderCard(pinItem);
+      window.card.render(pinItem);
     });
 
     return pin;

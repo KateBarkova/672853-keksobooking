@@ -126,17 +126,15 @@
 
   var clearAll = function () {
     var dom = window.dom.getElements();
-    var pinArray = dom.pins.querySelectorAll('.map__pin');
+    var pinsArray = dom.pins.querySelectorAll('.map__pin');
     dom.map.classList.add('map--faded');
     dom.form.classList.add('ad-form--disabled');
 
-    if (dom.popup) {
-      dom.popup.remove();
-    }
+    window.card.remove();
 
-    Object.keys(pinArray).forEach(function (index) {
-      if (!pinArray[index].classList.contains('map__pin--main')) {
-        pinArray[index].remove();
+    Object.keys(pinsArray).forEach(function (index) {
+      if (!pinsArray[index].classList.contains('map__pin--main')) {
+        pinsArray[index].remove();
       }
     });
 
@@ -146,6 +144,7 @@
     window.mainPin.moveToStart();
     window.map.setActiveForm();
     dom.form.reset();
+    dom.formFilters.reset();
   };
 
   var onResetButtonClick = function (evt) {

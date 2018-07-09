@@ -4,6 +4,7 @@
 
   var MAIN_PIN_WIDTH = 65;
   var MAIN_PIN_HEIGTH = 87;
+  var URL = 'https://js.dump.academy/keksobooking/data';
 
   var changeStateFieldset = function (fieldset, state) {
     Object.keys(fieldset).forEach(function (index) {
@@ -24,6 +25,11 @@
     dom.address.value = getAddress(MAIN_PIN_WIDTH, MAIN_PIN_WIDTH / 2);
   };
 
+  var successLoad = function (array) {
+    window.houseArray = array.slice();
+    window.pins.render(array);
+  };
+
   var getActiveState = function () {
     var dom = window.dom.getElements();
 
@@ -32,7 +38,8 @@
       dom.form.classList.remove('ad-form--disabled');
       dom.address.value = getAddress(MAIN_PIN_WIDTH, MAIN_PIN_HEIGTH);
       changeStateFieldset(dom.fieldsets, false);
-      window.renderPins();
+      window.backend.load(URL, successLoad, window.backend.onError);
+      window.listenFilterChange();
     }
   };
 
