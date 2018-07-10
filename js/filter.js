@@ -2,78 +2,102 @@
 
 (function () {
 
-  var priceDescription = {
+  var PriceDescription = {
     low: [0, 9999],
     middle: [10000, 50000],
     high: [50001, 1000000000]
   };
 
-  var type = document.querySelector('#housing-type');
-  var price = document.querySelector('#housing-price');
-  var rooms = document.querySelector('#housing-rooms');
-  var guests = document.querySelector('#housing-guests');
+  var filter = document.querySelector('.map__filters');
+  var type = filter.querySelector('#housing-type');
+  var price = filter.querySelector('#housing-price');
+  var rooms = filter.querySelector('#housing-rooms');
+  var guests = filter.querySelector('#housing-guests');
+  var features = filter.querySelectorAll('input[name=features]');
+
 
   var updatePins = function () {
     var array = window.houseArray;
+    var sameTypeHotels = array.slice();
 
-    if (type.value === 'any') {
-      var sameTypeHotels = array;
-    } else {
-      sameTypeHotels = array.filter(function (it) {
+    if (type.value !== 'any') {
+      sameTypeHotels = sameTypeHotels.filter(function (it) {
         return it.offer.type === type.value;
       });
     }
 
-    if (price.value === 'any') {
-      var samePriceHotels = sameTypeHotels;
-    } else {
+    var samePriceHotels = sameTypeHotels;
+    if (price.value !== 'any') {
       samePriceHotels = sameTypeHotels.filter(function (it) {
-        return it.offer.price >= priceDescription[price.value][0] && it.offer.price <= priceDescription[price.value][1];
+        return it.offer.price >= PriceDescription[price.value][0] && it.offer.price <= PriceDescription[price.value][1];
       });
     }
 
-    if (rooms.value === 'any') {
-      var sameRoomsHotels = samePriceHotels;
-    } else {
+    var sameRoomsHotels = samePriceHotels;
+    if (rooms.value !== 'any') {
       sameRoomsHotels = samePriceHotels.filter(function (it) {
         return it.offer.rooms.toString() === rooms.value;
       });
     }
 
-    if (guests.value === 'any') {
-      var sameGuestsHotels = sameRoomsHotels;
-    } else {
+    var sameGuestsHotels = sameRoomsHotels;
+    if (guests.value !== 'any') {
       sameGuestsHotels = sameRoomsHotels.filter(function (it) {
-        return it.offer.guests === guests.value;
+        return it.offer.guests.toString() === guests.value;
       });
     }
 
+    var featuresChecked = filter.querySelectorAll('input[name=features]:checked');
+    var featuresCheckedArray = Object.keys(featuresChecked).map(function (index) {
+      return featuresChecked[index].value;
+    });
+
+    var sameFeaturesHotels = [];
+
+    Object.keys(sameGuestsHotels).forEach(function (it) {
+      var checkArray = [];
+      Object.keys(featuresCheckedArray).forEach(function (i) {
+        if (sameGuestsHotels[it].offer.features.indexOf(featuresCheckedArray[i]) !== -1) {
+          checkArray.push(featuresCheckedArray[i]);
+        }
+      });
+
+      if (checkArray.length === featuresCheckedArray.length) {
+        sameFeaturesHotels.push(sameGuestsHotels[it]);
+      }
+    });
+
     window.pins.remove();
     window.card.remove();
-    window.pins.render(sameGuestsHotels);
+    window.pins.render(sameFeaturesHotels);
   };
 
-  var onTypeChange = window.debounce(function () {
+  var onFilterChange = window.debounce(function () {
     updatePins();
   });
 
-  var onPriceChange = window.debounce(function () {
-    updatePins();
-  });
+  window.filter = {
+    listenChange: function () {
+      type.addEventListener('change', onFilterChange);
+      price.addEventListener('change', onFilterChange);
+      rooms.addEventListener('change', onFilterChange);
+      guests.addEventListener('change', onFilterChange);
+      guests.addEventListener('change', onFilterChange);
+      Object.keys(features).forEach(function (i) {
+        features[i].addEventListener('change', onFilterChange);
+      });
+    },
 
-  var onRoomsChange = window.debounce(function () {
-    updatePins();
-  });
-
-  var onGuestsChange = window.debounce(function () {
-    updatePins();
-  });
-
-  window.listenFilterChange = function () {
-    type.addEventListener('change', onTypeChange);
-    price.addEventListener('change', onPriceChange);
-    rooms.addEventListener('change', onRoomsChange);
-    guests.addEventListener('change', onGuestsChange);
+    removeListener: function () {
+      type.removeEventListener('change', onFilterChange);
+      price.removeEventListener('change', onFilterChange);
+      rooms.removeEventListener('change', onFilterChange);
+      guests.removeEventListener('change', onFilterChange);
+      guests.removeEventListener('change', onFilterChange);
+      Object.keys(features).forEach(function (i) {
+        features[i].removeEventListener('change', onFilterChange);
+      });
+    }
   };
 
 })();

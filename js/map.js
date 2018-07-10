@@ -36,10 +36,11 @@
     if (dom.map.classList.contains('map--faded')) {
       dom.map.classList.remove('map--faded');
       dom.form.classList.remove('ad-form--disabled');
+      window.validateForm();
       dom.address.value = getAddress(MAIN_PIN_WIDTH, MAIN_PIN_HEIGTH);
       changeStateFieldset(dom.fieldsets, false);
       window.backend.load(URL, successLoad, window.backend.onError);
-      window.listenFilterChange();
+      window.filter.listenChange();
     }
   };
 

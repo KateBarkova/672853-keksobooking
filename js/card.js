@@ -2,11 +2,11 @@
 
 (function () {
 
-  var typeArray = {
-    'palace': 'Дворец',
-    'flat': 'Квартира',
-    'house': 'Дом',
-    'bungalo': 'Бунгало'
+  var TypeArray = {
+    palace: 'Дворец',
+    flat: 'Квартира',
+    house: 'Дом',
+    bungalo: 'Бунгало'
   };
 
   var renderFeatures = function (features) {
@@ -63,7 +63,7 @@
       cardItems.popupAvatar.src = element.author.avatar;
       cardItems.title.textContent = element.offer.title;
       cardItems.price.textContent = element.offer.price + '₽/ночь';
-      cardItems.typeHouse.textContent = typeArray[element.offer.type];
+      cardItems.typeHouse.textContent = TypeArray[element.offer.type];
       cardItems.capacity.textContent = capacity;
       cardItems.time.textContent = checkTime;
       cardItems.features.textContent = '';
