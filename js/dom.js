@@ -9,6 +9,7 @@
         pins: document.querySelector('.map__pins'),
         template: document.querySelector('template'),
         mapFilters: document.querySelector('.map__filters-container'),
+        formFilters: document.querySelector('.map__filters'),
         form: document.querySelector('.ad-form'),
         address: document.querySelector('#address'),
         fieldsets: document.querySelectorAll('fieldset'),
