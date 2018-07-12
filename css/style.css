@@ -576,12 +576,13 @@ fieldset {
   cursor: pointer;
 }
 
-.ad-form-header__drop-zone:hover {
+.ad-form-header__drop-zone:hover,
+.ad-form-header__input:hover + .ad-form-header__drop-zone {
   color: #ff5635;
 }
 
 .ad-form-header__drop-zone:focus,
-.ad-form-header__input:focus + .form-header__drop-zone {
+.ad-form-header__input:focus + .ad-form-header__drop-zone {
   color: #ff5635;
   -webkit-box-shadow: 0 0 2px 2px #ff6547;
           box-shadow: 0 0 2px 2px #ff6547;
@@ -788,8 +789,20 @@ fieldset {
   min-height: 70px;
 }
 
+.ad-form-header__input {
+  width: 125px;
+  height: 70px;
+  position: absolute;
+  z-index: 1;
+  opacity: 0;
+}
+
 .ad-form__upload .ad-form__input {
-  width: auto;
+  width: 125px;
+  height: 70px;
+  position: absolute;
+  z-index: 1;
+  opacity: 0;
 }
 
 .ad-form__upload:last-of-type {
@@ -810,6 +823,7 @@ fieldset {
   cursor: pointer;
 }
 
+.ad-form__input:hover + .ad-form__drop-zone,
 .ad-form__drop-zone:hover {
   color: #ff5635;
 }
