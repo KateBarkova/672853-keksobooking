@@ -147,6 +147,7 @@
     dom.formFilters.reset();
     removeFormEventListener();
     window.filter.removeListener();
+    window.photoPreview.remove();
   };
 
   var onResetButtonClick = function (evt) {

@@ -1242,3 +1242,7 @@ fieldset {
   box-shadow: 2px 2px 2px #000000;
   z-index: 2;
 }
+
+.over {
+  outline: 2px solid red;
+}

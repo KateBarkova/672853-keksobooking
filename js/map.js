@@ -41,6 +41,7 @@
       changeStateFieldset(dom.fieldsets, false);
       window.backend.load(URL, successLoad, window.backend.onError);
       window.filter.listenChange();
+      window.photoPreview.add();
     }
   };
 
