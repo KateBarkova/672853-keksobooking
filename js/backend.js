@@ -39,10 +39,6 @@
     };
   }
 
-  var removeErrorMessage = function () {
-    errorMessage.remove();
-  }
-
   window.backend = {
     load: function (url, onLoad, onError) {
       var xhr = new XMLHttpRequest();
@@ -80,9 +76,15 @@
 
       var errorMessage = pins.querySelector('.error-message');
 
+      var removeErrorMessage = function () {
+        errorMessage.remove();
+      }
+
       if (errorMessage) {
         setTimeout(removeErrorMessage, ERROR_TIMEOUT);
       }
+
+
     }
   };
 
