@@ -1257,6 +1257,6 @@ fieldset {
   z-index: 2;
 }
 
-.over {
+.outline {
   outline: 2px solid red;
 }

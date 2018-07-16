@@ -19,7 +19,7 @@
       var array = [];
       while (array.length < length) {
         var randomNumber = window.utils.getRandomNumber(min, max);
-        if (array.indexOf(randomNumber) === -1) {
+        if (array.indexOf(randomNumber) < 0) {
           array.push(randomNumber);
         }
       }

@@ -10,11 +10,11 @@
     3: [3]
   };
 
-  var minPriceToHouses = {
-    'bungalo': '0',
-    'flat': '1000',
-    'house': '5000',
-    'palace': '10000'
+  var MinPriceToHouses = {
+    bungalo: '0',
+    flat: '1000',
+    house: '5000',
+    palace: '10000'
   };
 
   var dom = window.dom.getElements();
@@ -72,8 +72,8 @@
 
   var setMinimalPrice = function (element1, element2) {
     var selectedElement = element1.options[element1.selectedIndex].value;
-    element2.placeholder = minPriceToHouses[selectedElement];
-    element2.min = minPriceToHouses[selectedElement];
+    element2.placeholder = MinPriceToHouses[selectedElement];
+    element2.min = MinPriceToHouses[selectedElement];
   };
 
   var onTypeChange = function () {
@@ -174,16 +174,16 @@
     clearAll();
   };
 
-  function onSubmitButtonClik() {
+  var onSubmitButtonClik = function () {
     adForm.classList.add('ad-form--invalid');
   }
 
-  function onFormSubmit(evt) {
+  var onFormSubmit = function (evt) {
     evt.preventDefault();
     window.backend.upload(new FormData(adForm), onSuccess, window.backend.onError);
   }
 
-  function removeFormEventListener() {
+  var removeFormEventListener = function () {
     inputTitle.removeEventListener('invalid', onTitleInvalid);
     inputTitle.removeEventListener('input', onTitleInput);
 

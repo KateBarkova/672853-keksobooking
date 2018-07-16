@@ -21,35 +21,35 @@
     var sameTypeHotels = array.slice();
 
     if (type.value !== 'any') {
-      sameTypeHotels = sameTypeHotels.filter(function (i) {
-        return i.offer.type === type.value;
+      sameTypeHotels = sameTypeHotels.filter(function (element) {
+        return element.offer.type === type.value;
       });
     }
 
     var samePriceHotels = sameTypeHotels;
     if (price.value !== 'any') {
-      samePriceHotels = sameTypeHotels.filter(function (i) {
-        return i.offer.price >= PriceDescription[price.value][0] && i.offer.price <= PriceDescription[price.value][1];
+      samePriceHotels = sameTypeHotels.filter(function (element) {
+        return element.offer.price >= PriceDescription[price.value][0] && i.offer.price <= PriceDescription[price.value][1];
       });
     }
 
     var sameRoomsHotels = samePriceHotels;
     if (rooms.value !== 'any') {
-      sameRoomsHotels = samePriceHotels.filter(function (i) {
-        return i.offer.rooms.toString() === rooms.value;
+      sameRoomsHotels = samePriceHotels.filter(function (element) {
+        return element.offer.rooms.toString() === rooms.value;
       });
     }
 
     var sameGuestsHotels = sameRoomsHotels;
     if (guests.value !== 'any') {
-      sameGuestsHotels = sameRoomsHotels.filter(function (i) {
-        return i.offer.guests.toString() === guests.value;
+      sameGuestsHotels = sameRoomsHotels.filter(function (element) {
+        return element.offer.guests.toString() === guests.value;
       });
     }
 
     var featuresChecked = filter.querySelectorAll('input[name=features]:checked');
-    var featuresCheckedArray = Object.keys(featuresChecked).map(function (i) {
-      return featuresChecked[i].value;
+    var featuresCheckedArray = Object.keys(featuresChecked).map(function (index) {
+      return featuresChecked[index].value;
     });
 
     var sameFeaturesHotels = [];
@@ -72,9 +72,7 @@
     window.pins.render(sameFeaturesHotels);
   };
 
-  var onFilterChange = window.debounce(function () {
-    updatePins();
-  });
+  var onFilterChange = window.debounce(updatePins);
 
   window.filter = {
     listenChange: function () {
@@ -83,8 +81,8 @@
       rooms.addEventListener('change', onFilterChange);
       guests.addEventListener('change', onFilterChange);
       guests.addEventListener('change', onFilterChange);
-      Object.keys(features).forEach(function (i) {
-        features[i].addEventListener('change', onFilterChange);
+      Object.keys(features).forEach(function (index) {
+        features[index].addEventListener('change', onFilterChange);
       });
     },
 
@@ -94,8 +92,8 @@
       rooms.removeEventListener('change', onFilterChange);
       guests.removeEventListener('change', onFilterChange);
       guests.removeEventListener('change', onFilterChange);
-      Object.keys(features).forEach(function (i) {
-        features[i].removeEventListener('change', onFilterChange);
+      Object.keys(features).forEach(function (index) {
+        features[index].removeEventListener('change', onFilterChange);
       });
     }
   };

@@ -10,8 +10,8 @@
 
     var file = avatarChooser.files[0];
     var fileName = file.name.toLowerCase();
-    var matches = FILE_TYPES.some(function (it) {
-      return fileName.endsWith(it);
+    var matches = FILE_TYPES.some(function (index) {
+      return fileName.endsWith(index);
     });
     if (matches) {
       var reader = new FileReader();
@@ -29,14 +29,14 @@
   var previewContainer = document.querySelector('.ad-form__photo');
   var formUpload = document.querySelector('.ad-form__photo-container');
 
-  function createDivContainer() {
+  var createDivContainer = function () {
     var container = document.createElement('div');
     container.classList.add('ad-form__photo');
     formUpload.appendChild(container);
     return container;
   }
 
-  function createPhotoPreview(reader) {
+  var createPhotoPreview = function (reader) {
     var photo = document.createElement('img');
     photo.classList.add('ad-form__img');
     photo.height = '70';
@@ -58,8 +58,8 @@
 
     var file = imageChooser.files[0];
     var fileName = file.name.toLowerCase();
-    var matches = FILE_TYPES.some(function (i) {
-      return fileName.endsWith(i);
+    var matches = FILE_TYPES.some(function (index) {
+      return fileName.endsWith(index);
     });
     if (matches) {
       var reader = new FileReader();
@@ -76,60 +76,60 @@
   var removePreview = function () {
     preview.src = 'img/muffin-grey.svg';
     var photosContainer = formUpload.querySelectorAll('.ad-form__photo');
-    Object.keys(photosContainer).forEach(function (it) {
-      photosContainer[it].remove();
+    Object.keys(photosContainer).forEach(function (index) {
+      photosContainer[index].remove();
     });
     createDivContainer();
   };
 
   var dragSrcEl = null;
 
-  function onPhotoDragStart(evt) {
-    dragSrcEl = evt.currentTarget;
-    evt.dataTransfer.effectAllowed = 'move';
-    evt.dataTransfer.setData('text/html', evt.currentTarget.innerHTML);
+  var onPhotoDragStart = function (event) {
+    dragSrcEl = event.currentTarget;
+    event.dataTransfer.effectAllowed = 'move';
+    event.dataTransfer.setData('text/html', event.currentTarget.innerHTML);
   }
 
-  function onPhotoDrop(evt) {
-    if (evt.stopPropagation) {
-      evt.stopPropagation();
+  var onPhotoDrop = function (event) {
+    if (event.stopPropagation) {
+      event.stopPropagation();
     }
 
-    if (dragSrcEl !== evt.currentTarget) {
-      dragSrcEl.innerHTML = evt.currentTarget.innerHTML;
-      evt.currentTarget.innerHTML = evt.dataTransfer.getData('text/html');
-      evt.currentTarget.classList.remove('over');
+    if (dragSrcEl !== event.currentTarget) {
+      dragSrcEl.innerHTML = event.currentTarget.innerHTML;
+      event.currentTarget.innerHTML = event.dataTransfer.getData('text/html');
+      event.currentTarget.classList.remove('outline');
     }
 
     return false;
   }
 
-  function onPhotoDragEnter(evt) {
-    evt.currentTarget.classList.add('over');
+  var onPhotoDragEnter = function (event) {
+    event.currentTarget.classList.add('outline');
   }
 
-  function onPhotoDragOver(evt) {
-    if (evt.preventDefault) {
-      evt.preventDefault();
+  var onPhotoDragOver = function (event) {
+    if (event.preventDefault) {
+      event.preventDefault();
     }
-    evt.dataTransfer.dropEffect = 'move';
+    event.dataTransfer.dropEffect = 'move';
 
     return false;
   }
 
-  function onPhotoDragLeave(evt) {
-    evt.currentTarget.classList.remove('over');
+  var onPhotoDragLeave = function (event) {
+    event.currentTarget.classList.remove('outline');
   }
 
-  function addDragAndDrop() {
+  var addDragAndDrop = function () {
     var photos = formUpload.querySelectorAll('.ad-form__photo');
-    Object.keys(photos).forEach(function (i) {
-      photos[i].draggable = true;
-      photos[i].addEventListener('dragstart', onPhotoDragStart, false);
-      photos[i].addEventListener('dragenter', onPhotoDragEnter, false);
-      photos[i].addEventListener('dragover', onPhotoDragOver, false);
-      photos[i].addEventListener('dragleave', onPhotoDragLeave, false);
-      photos[i].addEventListener('drop', onPhotoDrop, false);
+    Object.keys(photos).forEach(function (index) {
+      photos[index].draggable = true;
+      photos[index].addEventListener('dragstart', onPhotoDragStart, false);
+      photos[index].addEventListener('dragenter', onPhotoDragEnter, false);
+      photos[index].addEventListener('dragover', onPhotoDragOver, false);
+      photos[index].addEventListener('dragleave', onPhotoDragLeave, false);
+      photos[index].addEventListener('drop', onPhotoDrop, false);
     });
   }
 
