@@ -175,12 +175,12 @@
 
   var onSubmitButtonClick = function () {
     adForm.classList.add('ad-form--invalid');
-  }
+  };
 
   var onFormSubmit = function (event) {
     event.preventDefault();
     window.backend.upload(new FormData(adForm), onSuccess, window.backend.onError);
-  }
+  };
 
   var removeFormEventListener = function () {
     inputTitle.removeEventListener('invalid', onTitleInvalid);
@@ -201,7 +201,7 @@
     resetButton.removeEventListener('click', onResetButtonClick);
     submitButton.removeEventListener('click', onSubmitButtonClick);
     adForm.removeEventListener('submit', onFormSubmit);
-  }
+  };
 
 
   window.validateForm = function () {

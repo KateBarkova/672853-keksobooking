@@ -27,7 +27,7 @@
 
     var onPinClick = function () {
       window.card.render(pinItem);
-    }
+    };
 
     pin.addEventListener('click', onPinClick);
 

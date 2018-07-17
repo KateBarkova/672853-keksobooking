@@ -14,20 +14,20 @@
         onError('Cтатус ответа: ' + xhr.status + ' ' + xhr.statusText);
       }
     };
-  }
+  };
 
   var onXhrError = function (onError) {
     return function () {
       onError('Произошла ошибка соединения');
     };
-  }
+  };
 
   var onXhrTimeout = function (onError, xhr) {
     return function () {
       xhr.timeout = LOAD_TIMEOUT;
       onError('Запрос не успел выполниться за ' + xhr.timeout + 'мс');
     };
-  }
+  };
 
   var onXhrUpLoad = function (xhr, onLoad, onError) {
     return function () {
@@ -37,7 +37,7 @@
         onError('Cтатус ответа: ' + xhr.status + ' ' + xhr.statusText);
       }
     };
-  }
+  };
 
   window.backend = {
     load: function (url, onLoad, onError) {
@@ -78,7 +78,7 @@
 
       var removeErrorMessage = function () {
         errorMessage.remove();
-      }
+      };
 
       if (errorMessage) {
         setTimeout(removeErrorMessage, ERROR_TIMEOUT);

@@ -36,7 +36,7 @@
     container.classList.add('ad-form__photo');
     formUpload.appendChild(container);
     return container;
-  }
+  };
 
   var createPhotoPreview = function (reader) {
     var photo = document.createElement('img');
@@ -54,7 +54,7 @@
     } else {
       previewContainer.appendChild(photo);
     }
-  }
+  };
 
   var onImagesChange = function () {
 
@@ -90,7 +90,7 @@
     dragSourceElement = event.currentTarget;
     event.dataTransfer.effectAllowed = 'move';
     event.dataTransfer.setData('text/html', event.currentTarget.innerHTML);
-  }
+  };
 
   var onPhotoDrop = function (event) {
     if (event.stopPropagation) {
@@ -104,11 +104,11 @@
     }
 
     return false;
-  }
+  };
 
   var onPhotoDragEnter = function (event) {
     event.currentTarget.classList.add('outline');
-  }
+  };
 
   var onPhotoDragOver = function (event) {
     if (event.preventDefault) {
@@ -117,11 +117,11 @@
     event.dataTransfer.dropEffect = 'move';
 
     return false;
-  }
+  };
 
   var onPhotoDragLeave = function (event) {
     event.currentTarget.classList.remove('outline');
-  }
+  };
 
   var addDragAndDrop = function () {
     var photos = formUpload.querySelectorAll('.ad-form__photo');
@@ -133,7 +133,7 @@
       photos[index].addEventListener('dragleave', onPhotoDragLeave, false);
       photos[index].addEventListener('drop', onPhotoDrop, false);
     });
-  }
+  };
 
   window.photoPreview = {
     add: function () {
