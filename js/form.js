@@ -138,9 +138,8 @@
       }
     });
 
-    if (dom.form.classList.contains('ad-form--invalid')) {
-      dom.form.classList.remove('ad-form--invalid');
-    }
+    dom.form.classList.remove('ad-form--invalid');
+
     window.mainPin.moveToStart();
     window.map.setActiveForm();
     dom.form.reset();
@@ -174,7 +173,7 @@
     clearAll();
   };
 
-  var onSubmitButtonClik = function () {
+  var onSubmitButtonClick = function () {
     adForm.classList.add('ad-form--invalid');
   }
 
@@ -200,7 +199,7 @@
 
 
     resetButton.removeEventListener('click', onResetButtonClick);
-    submitButton.removeEventListener('click', onSubmitButtonClik);
+    submitButton.removeEventListener('click', onSubmitButtonClick);
     adForm.removeEventListener('submit', onFormSubmit);
   }
 
@@ -225,7 +224,7 @@
 
 
     resetButton.addEventListener('click', onResetButtonClick);
-    submitButton.addEventListener('click', onSubmitButtonClik);
+    submitButton.addEventListener('click', onSubmitButtonClick);
     adForm.addEventListener('submit', onFormSubmit);
   };
 

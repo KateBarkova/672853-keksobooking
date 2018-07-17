@@ -3,6 +3,8 @@
 (function () {
 
   var FILE_TYPES = ['gif', 'jpg', 'jpeg', 'png'];
+  var PHOTO_WIDTH = 70;
+  var PHOTO_HEIGHT = 70;
   var avatarChooser = document.querySelector('#avatar');
   var preview = document.querySelector('.ad-form-header__preview img');
 
@@ -39,8 +41,8 @@
   var createPhotoPreview = function (reader) {
     var photo = document.createElement('img');
     photo.classList.add('ad-form__img');
-    photo.height = '70';
-    photo.width = '70';
+    photo.style.height = PHOTO_WIDTH + 'px';
+    photo.style.height = PHOTO_HEIGHT + 'px';
     photo.src = reader.result;
 
     var photoPreview = document.querySelector('.ad-form__img');
@@ -82,10 +84,10 @@
     createDivContainer();
   };
 
-  var dragSrcEl = null;
+  var dragSourceElement = null;
 
   var onPhotoDragStart = function (event) {
-    dragSrcEl = event.currentTarget;
+    dragSourceElement = event.currentTarget;
     event.dataTransfer.effectAllowed = 'move';
     event.dataTransfer.setData('text/html', event.currentTarget.innerHTML);
   }
@@ -95,8 +97,8 @@
       event.stopPropagation();
     }
 
-    if (dragSrcEl !== event.currentTarget) {
-      dragSrcEl.innerHTML = event.currentTarget.innerHTML;
+    if (dragSourceElement !== event.currentTarget) {
+      dragSourceElement.innerHTML = event.currentTarget.innerHTML;
       event.currentTarget.innerHTML = event.dataTransfer.getData('text/html');
       event.currentTarget.classList.remove('outline');
     }
