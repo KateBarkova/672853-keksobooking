@@ -1,6 +1,7 @@
 'use strict';
 
 (function () {
+  var ESC_KEYCODE = 27;
 
   var TypeArray = {
     palace: 'Дворец',
@@ -39,11 +40,18 @@
     window.card.remove();
   };
 
+  var onCardEscPress = function (event) {
+    if (event.keyCode === ESC_KEYCODE) {
+      window.card.remove();
+    }
+  };
+
   window.card = {
     remove: function () {
       var card = document.querySelector('.map__card');
       if (card) {
         card.remove();
+        document.removeEventListener('keydown', onCardEscPress);
       }
     },
 
@@ -77,6 +85,7 @@
       cardFragment.appendChild(card);
       dom.map.insertBefore(cardFragment, dom.mapFilters);
 
+      document.addEventListener('keydown', onCardEscPress);
       cardItems.closeButton.addEventListener('click', onCloseButtonClick);
     }
   };

@@ -41,11 +41,12 @@
       changeStateFieldset(dom.fieldsets, false);
       window.backend.load(URL, successLoad, window.backend.onError);
       window.filter.listenChange();
+      window.photoPreview.add();
     }
   };
 
-  var onMainPinMouseDown = function (evt) {
-    window.mainPin.move(evt);
+  var onMainPinMouseDown = function (event) {
+    window.mainPin.move(event);
     getActiveState();
   };
 

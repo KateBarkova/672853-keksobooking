@@ -3,10 +3,12 @@
 (function () {
   var LOAD_TIMEOUT = 10000;
   var ERROR_TIMEOUT = 3000;
+  var SUCCESS_STATUS = 200;
+  var URL = 'https://js.dump.academy/keksobooking';
 
-  function onXhrLoad(xhr, onLoad, onError) {
+  var onXhrLoad = function (xhr, onLoad, onError) {
     return function () {
-      if (xhr.status === 200) {
+      if (xhr.status === SUCCESS_STATUS) {
         onLoad(xhr.response);
       } else {
         onError('Cтатус ответа: ' + xhr.status + ' ' + xhr.statusText);
@@ -14,22 +16,22 @@
     };
   }
 
-  function onXhrError(onError) {
+  var onXhrError = function (onError) {
     return function () {
       onError('Произошла ошибка соединения');
     };
   }
 
-  function onXhrTimeout(onError, xhr) {
+  var onXhrTimeout = function (onError, xhr) {
     return function () {
       xhr.timeout = LOAD_TIMEOUT;
       onError('Запрос не успел выполниться за ' + xhr.timeout + 'мс');
     };
   }
 
-  function onXhrUpLoad(xhr, onLoad, onError) {
+  var onXhrUpLoad = function (xhr, onLoad, onError) {
     return function () {
-      if (xhr.status === 200) {
+      if (xhr.status === SUCCESS_STATUS) {
         onLoad();
       } else {
         onError('Cтатус ответа: ' + xhr.status + ' ' + xhr.statusText);
@@ -52,7 +54,6 @@
     },
 
     upload: function (data, onLoad, onError) {
-      var URL = 'https://js.dump.academy/keksobooking';
       var xhr = new XMLHttpRequest();
       xhr.responseType = 'json';
 
@@ -75,13 +76,15 @@
 
       var errorMessage = pins.querySelector('.error-message');
 
+      var removeErrorMessage = function () {
+        errorMessage.remove();
+      }
+
       if (errorMessage) {
         setTimeout(removeErrorMessage, ERROR_TIMEOUT);
       }
 
-      function removeErrorMessage() {
-        errorMessage.remove();
-      }
+
     }
   };
 

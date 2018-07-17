@@ -21,29 +21,29 @@
     var sameTypeHotels = array.slice();
 
     if (type.value !== 'any') {
-      sameTypeHotels = sameTypeHotels.filter(function (it) {
-        return it.offer.type === type.value;
+      sameTypeHotels = sameTypeHotels.filter(function (element) {
+        return element.offer.type === type.value;
       });
     }
 
     var samePriceHotels = sameTypeHotels;
     if (price.value !== 'any') {
-      samePriceHotels = sameTypeHotels.filter(function (it) {
-        return it.offer.price >= PriceDescription[price.value][0] && it.offer.price <= PriceDescription[price.value][1];
+      samePriceHotels = sameTypeHotels.filter(function (element) {
+        return element.offer.price >= PriceDescription[price.value][0] && element.offer.price <= PriceDescription[price.value][1];
       });
     }
 
     var sameRoomsHotels = samePriceHotels;
     if (rooms.value !== 'any') {
-      sameRoomsHotels = samePriceHotels.filter(function (it) {
-        return it.offer.rooms.toString() === rooms.value;
+      sameRoomsHotels = samePriceHotels.filter(function (element) {
+        return element.offer.rooms.toString() === rooms.value;
       });
     }
 
     var sameGuestsHotels = sameRoomsHotels;
     if (guests.value !== 'any') {
-      sameGuestsHotels = sameRoomsHotels.filter(function (it) {
-        return it.offer.guests.toString() === guests.value;
+      sameGuestsHotels = sameRoomsHotels.filter(function (element) {
+        return element.offer.guests.toString() === guests.value;
       });
     }
 
@@ -54,16 +54,16 @@
 
     var sameFeaturesHotels = [];
 
-    Object.keys(sameGuestsHotels).forEach(function (it) {
+    Object.keys(sameGuestsHotels).forEach(function (i) {
       var checkArray = [];
-      Object.keys(featuresCheckedArray).forEach(function (i) {
-        if (sameGuestsHotels[it].offer.features.indexOf(featuresCheckedArray[i]) !== -1) {
-          checkArray.push(featuresCheckedArray[i]);
+      Object.keys(featuresCheckedArray).forEach(function (j) {
+        if (sameGuestsHotels[i].offer.features.indexOf(featuresCheckedArray[j]) !== -1) {
+          checkArray.push(featuresCheckedArray[j]);
         }
       });
 
       if (checkArray.length === featuresCheckedArray.length) {
-        sameFeaturesHotels.push(sameGuestsHotels[it]);
+        sameFeaturesHotels.push(sameGuestsHotels[i]);
       }
     });
 
@@ -72,9 +72,7 @@
     window.pins.render(sameFeaturesHotels);
   };
 
-  var onFilterChange = window.debounce(function () {
-    updatePins();
-  });
+  var onFilterChange = window.debounce(updatePins);
 
   window.filter = {
     listenChange: function () {
@@ -83,8 +81,8 @@
       rooms.addEventListener('change', onFilterChange);
       guests.addEventListener('change', onFilterChange);
       guests.addEventListener('change', onFilterChange);
-      Object.keys(features).forEach(function (i) {
-        features[i].addEventListener('change', onFilterChange);
+      Object.keys(features).forEach(function (index) {
+        features[index].addEventListener('change', onFilterChange);
       });
     },
 
@@ -94,8 +92,8 @@
       rooms.removeEventListener('change', onFilterChange);
       guests.removeEventListener('change', onFilterChange);
       guests.removeEventListener('change', onFilterChange);
-      Object.keys(features).forEach(function (i) {
-        features[i].removeEventListener('change', onFilterChange);
+      Object.keys(features).forEach(function (index) {
+        features[index].removeEventListener('change', onFilterChange);
       });
     }
   };

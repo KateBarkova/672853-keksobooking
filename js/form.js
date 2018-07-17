@@ -10,11 +10,11 @@
     3: [3]
   };
 
-  var minPriceToHouses = {
-    'bungalo': '0',
-    'flat': '1000',
-    'house': '5000',
-    'palace': '10000'
+  var MinPriceToHouses = {
+    bungalo: '0',
+    flat: '1000',
+    house: '5000',
+    palace: '10000'
   };
 
   var dom = window.dom.getElements();
@@ -72,8 +72,8 @@
 
   var setMinimalPrice = function (element1, element2) {
     var selectedElement = element1.options[element1.selectedIndex].value;
-    element2.placeholder = minPriceToHouses[selectedElement];
-    element2.min = minPriceToHouses[selectedElement];
+    element2.placeholder = MinPriceToHouses[selectedElement];
+    element2.min = MinPriceToHouses[selectedElement];
   };
 
   var onTypeChange = function () {
@@ -138,19 +138,19 @@
       }
     });
 
-    if (dom.form.classList.contains('ad-form--invalid')) {
-      dom.form.classList.remove('ad-form--invalid');
-    }
+    dom.form.classList.remove('ad-form--invalid');
+
     window.mainPin.moveToStart();
     window.map.setActiveForm();
     dom.form.reset();
     dom.formFilters.reset();
     removeFormEventListener();
     window.filter.removeListener();
+    window.photoPreview.remove();
   };
 
-  var onResetButtonClick = function (evt) {
-    evt.preventDefault();
+  var onResetButtonClick = function (event) {
+    event.preventDefault();
     clearAll();
   };
 
@@ -159,8 +159,8 @@
     successMessage.classList.add('hidden');
   };
 
-  var onPopupEscPress = function (evt) {
-    if (evt.keyCode === ESC_KEYCODE) {
+  var onPopupEscPress = function (event) {
+    if (event.keyCode === ESC_KEYCODE) {
       closePopup();
       document.removeEventListener('keydown', onPopupEscPress);
     }
@@ -173,16 +173,16 @@
     clearAll();
   };
 
-  function onSubmitButtonClik() {
+  var onSubmitButtonClick = function () {
     adForm.classList.add('ad-form--invalid');
   }
 
-  function onFormSubmit(evt) {
-    evt.preventDefault();
+  var onFormSubmit = function (event) {
+    event.preventDefault();
     window.backend.upload(new FormData(adForm), onSuccess, window.backend.onError);
   }
 
-  function removeFormEventListener() {
+  var removeFormEventListener = function () {
     inputTitle.removeEventListener('invalid', onTitleInvalid);
     inputTitle.removeEventListener('input', onTitleInput);
 
@@ -199,7 +199,7 @@
 
 
     resetButton.removeEventListener('click', onResetButtonClick);
-    submitButton.removeEventListener('click', onSubmitButtonClik);
+    submitButton.removeEventListener('click', onSubmitButtonClick);
     adForm.removeEventListener('submit', onFormSubmit);
   }
 
@@ -224,7 +224,7 @@
 
 
     resetButton.addEventListener('click', onResetButtonClick);
-    submitButton.addEventListener('click', onSubmitButtonClik);
+    submitButton.addEventListener('click', onSubmitButtonClick);
     adForm.addEventListener('submit', onFormSubmit);
   };
 

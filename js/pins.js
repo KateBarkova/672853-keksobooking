@@ -17,10 +17,10 @@
     },
 
     render: function (array) {
+
+      var arrayLength = array.length;
       if (array.length > OBJECT_NUMBER) {
-        var arrayLength = OBJECT_NUMBER;
-      } else {
-        arrayLength = array.length;
+        arrayLength = OBJECT_NUMBER;
       }
 
       var dom = window.dom.getElements();
