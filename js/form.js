@@ -149,8 +149,8 @@
     window.photoPreview.remove();
   };
 
-  var onResetButtonClick = function (evt) {
-    evt.preventDefault();
+  var onResetButtonClick = function (event) {
+    event.preventDefault();
     clearAll();
   };
 
@@ -159,8 +159,8 @@
     successMessage.classList.add('hidden');
   };
 
-  var onPopupEscPress = function (evt) {
-    if (evt.keyCode === ESC_KEYCODE) {
+  var onPopupEscPress = function (event) {
+    if (event.keyCode === ESC_KEYCODE) {
       closePopup();
       document.removeEventListener('keydown', onPopupEscPress);
     }
@@ -177,8 +177,8 @@
     adForm.classList.add('ad-form--invalid');
   }
 
-  var onFormSubmit = function (evt) {
-    evt.preventDefault();
+  var onFormSubmit = function (event) {
+    event.preventDefault();
     window.backend.upload(new FormData(adForm), onSuccess, window.backend.onError);
   }
 

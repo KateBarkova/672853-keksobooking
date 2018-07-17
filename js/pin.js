@@ -25,7 +25,7 @@
     pin.querySelector('img').src = pinItem.author.avatar;
     pin.querySelector('img').alt = pinItem.offer.description;
 
-    var onPinClick = function() {
+    var onPinClick = function () {
       window.card.render(pinItem);
     }
 

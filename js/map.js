@@ -45,8 +45,8 @@
     }
   };
 
-  var onMainPinMouseDown = function (evt) {
-    window.mainPin.move(evt);
+  var onMainPinMouseDown = function (event) {
+    window.mainPin.move(event);
     getActiveState();
   };
 

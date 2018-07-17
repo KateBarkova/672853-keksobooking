@@ -40,8 +40,8 @@
     window.card.remove();
   };
 
-  var onCardEscPress = function (evt) {
-    if (evt.keyCode === ESC_KEYCODE) {
+  var onCardEscPress = function (event) {
+    if (event.keyCode === ESC_KEYCODE) {
       window.card.remove();
     }
   };
