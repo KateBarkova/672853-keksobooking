@@ -29,7 +29,7 @@
     var samePriceHotels = sameTypeHotels;
     if (price.value !== 'any') {
       samePriceHotels = sameTypeHotels.filter(function (element) {
-        return element.offer.price >= PriceDescription[price.value][0] && i.offer.price <= PriceDescription[price.value][1];
+        return element.offer.price >= PriceDescription[price.value][0] && element.offer.price <= PriceDescription[price.value][1];
       });
     }
 
