@@ -141,9 +141,9 @@
     dom.form.classList.remove('ad-form--invalid');
 
     window.mainPin.moveToStart();
-    window.map.setActiveForm();
     dom.form.reset();
     dom.formFilters.reset();
+    window.map.setActiveForm();
     removeFormEventListener();
     window.filter.removeListener();
     window.photoPreview.remove();
