@@ -17,8 +17,7 @@
 
 
   var updatePins = function () {
-    var array = window.houseArray;
-    var sameTypeHotels = array.slice();
+    var sameTypeHotels = window.houseArray.slice();
 
     if (type.value !== 'any') {
       sameTypeHotels = sameTypeHotels.filter(function (element) {

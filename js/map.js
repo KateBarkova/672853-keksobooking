@@ -4,7 +4,7 @@
 
   var MAIN_PIN_WIDTH = 65;
   var MAIN_PIN_HEIGTH = 87;
-  var URL = 'https://js.dump.academy/keksobooking/data';
+  var ENTER_KEYCODE = 13;
 
   var changeStateFieldset = function (fieldset, state) {
     Object.keys(fieldset).forEach(function (index) {
@@ -25,7 +25,7 @@
     dom.address.value = getAddress(MAIN_PIN_WIDTH, MAIN_PIN_WIDTH / 2);
   };
 
-  var successLoad = function (array) {
+  var onSuccessLoad = function (array) {
     window.houseArray = array.slice();
     window.pins.render(array);
   };
@@ -39,9 +39,15 @@
       window.validateForm();
       dom.address.value = getAddress(MAIN_PIN_WIDTH, MAIN_PIN_HEIGTH);
       changeStateFieldset(dom.fieldsets, false);
-      window.backend.load(URL, successLoad, window.backend.onError);
+      window.backend.load(onSuccessLoad, window.backend.onError);
       window.filter.listenChange();
       window.photoPreview.add();
+    }
+  };
+
+  var onMainPinEnterPress = function (event) {
+    if (event.keyCode === ENTER_KEYCODE) {
+      getActiveState();
     }
   };
 
@@ -56,6 +62,7 @@
     setActiveForm();
 
     mainPin.addEventListener('mousedown', onMainPinMouseDown);
+    mainPin.addEventListener('keydown', onMainPinEnterPress);
   };
 
   render();

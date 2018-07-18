@@ -70,19 +70,19 @@
     validateFormPrice(inputPrice);
   };
 
-  var setMinimalPrice = function (element1, element2) {
-    var selectedElement = element1.options[element1.selectedIndex].value;
-    element2.placeholder = MinPriceToHouses[selectedElement];
-    element2.min = MinPriceToHouses[selectedElement];
+  var setMinimalPrice = function (type, price) {
+    var selectedType = type.options[type.selectedIndex].value;
+    price.placeholder = MinPriceToHouses[selectedType];
+    price.min = MinPriceToHouses[selectedType];
   };
 
   var onTypeChange = function () {
     setMinimalPrice(inputType, inputPrice);
   };
 
-  var setChangeTime = function (element1, element2) {
-    var selectedElement = element1.options[element1.selectedIndex].value;
-    element2.value = selectedElement;
+  var setChangeTime = function (selectedTime, setTime) {
+    var selectedElement = selectedTime.options[selectedTime.selectedIndex].value;
+    setTime.value = selectedElement;
   };
 
   var onTimeInChange = function () {
@@ -203,11 +203,7 @@
     adForm.removeEventListener('submit', onFormSubmit);
   };
 
-
-  window.validateForm = function () {
-    setNumberGuest();
-    validateGuests();
-
+  var addFormEventListener = function () {
     inputTitle.addEventListener('invalid', onTitleInvalid);
     inputTitle.addEventListener('input', onTitleInput);
 
@@ -226,6 +222,13 @@
     resetButton.addEventListener('click', onResetButtonClick);
     submitButton.addEventListener('click', onSubmitButtonClick);
     adForm.addEventListener('submit', onFormSubmit);
+  };
+
+
+  window.validateForm = function () {
+    setNumberGuest();
+    validateGuests();
+    addFormEventListener();
   };
 
 })();
