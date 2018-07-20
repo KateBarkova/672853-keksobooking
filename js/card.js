@@ -3,7 +3,7 @@
 (function () {
   var ESC_KEYCODE = 27;
 
-  var TypeObject = {
+  var TypeObjects = {
     palace: 'Дворец',
     flat: 'Квартира',
     house: 'Дом',
