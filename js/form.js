@@ -70,10 +70,10 @@
     validateFormPrice(inputPrice);
   };
 
-  var setMinimalPrice = function (housingTypes, housingPrice) {
-    var selectedType = housingTypes.options[housingTypes.selectedIndex].value;
-    housingPrice.placeholder = MinPriceToHouses[selectedType];
-    housingPrice.min = MinPriceToHouses[selectedType];
+  var setMinimalPrice = function (typeObjects, price) {
+    var selectedType = typeObjects.options[typeObjects.selectedIndex].value;
+    price.placeholder = MinPriceToHouses[selectedType];
+    price.min = MinPriceToHouses[selectedType];
   };
 
   var onTypeChange = function () {
