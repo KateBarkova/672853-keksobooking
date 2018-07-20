@@ -93,7 +93,7 @@
     setChangeTime(timeOut, timeIn);
   };
 
-  var setNumberGuest = function () {
+  var setNumberGuests = function () {
     var selectedValue = rooms.selectedIndex;
     var selectedArray = RoomsToGuests[selectedValue];
 
@@ -117,7 +117,7 @@
   };
 
   var onRoomChange = function () {
-    setNumberGuest();
+    setNumberGuests();
     validateGuests();
   };
 
@@ -144,7 +144,7 @@
     dom.form.reset();
     dom.formFilters.reset();
     window.map.setActiveForm();
-    removeFormEventListener();
+    removeFormEventsListener();
     window.filter.removeListener();
     window.photoPreview.remove();
   };
@@ -182,7 +182,7 @@
     window.backend.upload(new FormData(adForm), onSuccess, window.backend.onError);
   };
 
-  var removeFormEventListener = function () {
+  var removeFormEventsListener = function () {
     inputTitle.removeEventListener('invalid', onTitleInvalid);
     inputTitle.removeEventListener('input', onTitleInput);
 
@@ -203,7 +203,7 @@
     adForm.removeEventListener('submit', onFormSubmit);
   };
 
-  var addFormEventListener = function () {
+  var addFormEventsListener = function () {
     inputTitle.addEventListener('invalid', onTitleInvalid);
     inputTitle.addEventListener('input', onTitleInput);
 
@@ -226,10 +226,10 @@
 
 
   window.validateForm = function () {
-    setNumberGuest();
+    setNumberGuests();
     validateGuests();
     setMinimalPrice(inputType, inputPrice);
-    addFormEventListener();
+    addFormEventsListener();
   };
 
 })();
