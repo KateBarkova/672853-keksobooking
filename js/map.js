@@ -45,14 +45,14 @@
     }
   };
 
-  var onMainPinEnterPress = function (event) {
-    if (event.keyCode === ENTER_KEYCODE) {
+  var onMainPinEnterPress = function (keyboardEvt) {
+    if (keyboardEvt.keyCode === ENTER_KEYCODE) {
       getActiveState();
     }
   };
 
-  var onMainPinMouseDown = function (event) {
-    window.mainPin.move(event);
+  var onMainPinMouseDown = function (mouseDownEvt) {
+    window.mainPin.move(mouseDownEvt);
     getActiveState();
   };
 

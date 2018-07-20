@@ -86,41 +86,41 @@
 
   var dragSourceElement = null;
 
-  var onPhotoDragStart = function (event) {
-    dragSourceElement = event.currentTarget;
-    event.dataTransfer.effectAllowed = 'move';
-    event.dataTransfer.setData('text/html', event.currentTarget.innerHTML);
+  var onPhotoDragStart = function (dragStartEvt) {
+    dragSourceElement = dragStartEvt.currentTarget;
+    dragStartEvt.dataTransfer.effectAllowed = 'move';
+    dragStartEvt.dataTransfer.setData('text/html', dragStartEvt.currentTarget.innerHTML);
   };
 
-  var onPhotoDrop = function (event) {
-    if (event.stopPropagation) {
-      event.stopPropagation();
+  var onPhotoDrop = function (dropEvt) {
+    if (dropEvt.stopPropagation) {
+      dropEvt.stopPropagation();
     }
 
-    if (dragSourceElement !== event.currentTarget) {
-      dragSourceElement.innerHTML = event.currentTarget.innerHTML;
-      event.currentTarget.innerHTML = event.dataTransfer.getData('text/html');
-      event.currentTarget.classList.remove('outline');
+    if (dragSourceElement !== dropEvt.currentTarget) {
+      dragSourceElement.innerHTML = dropEvt.currentTarget.innerHTML;
+      dropEvt.currentTarget.innerHTML = dropEvt.dataTransfer.getData('text/html');
+      dropEvt.currentTarget.classList.remove('outline');
     }
 
     return false;
   };
 
-  var onPhotoDragEnter = function (event) {
-    event.currentTarget.classList.add('outline');
+  var onPhotoDragEnter = function (dragEnterEvt) {
+    dragEnterEvt.currentTarget.classList.add('outline');
   };
 
-  var onPhotoDragOver = function (event) {
-    if (event.preventDefault) {
-      event.preventDefault();
+  var onPhotoDragOver = function (dragOverEvt) {
+    if (dragOverEvt.preventDefault) {
+      dragOverEvt.preventDefault();
     }
-    event.dataTransfer.dropEffect = 'move';
+    dragOverEvt.dataTransfer.dropEffect = 'move';
 
     return false;
   };
 
-  var onPhotoDragLeave = function (event) {
-    event.currentTarget.classList.remove('outline');
+  var onPhotoDragLeave = function (dragLeaveEvt) {
+    dragLeaveEvt.currentTarget.classList.remove('outline');
   };
 
   var addDragAndDrop = function () {

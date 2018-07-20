@@ -70,10 +70,10 @@
     validateFormPrice(inputPrice);
   };
 
-  var setMinimalPrice = function (type, price) {
-    var selectedType = type.options[type.selectedIndex].value;
-    price.placeholder = MinPriceToHouses[selectedType];
-    price.min = MinPriceToHouses[selectedType];
+  var setMinimalPrice = function (housingTypes, housingPrice) {
+    var selectedType = housingTypes.options[housingTypes.selectedIndex].value;
+    housingPrice.placeholder = MinPriceToHouses[selectedType];
+    housingPrice.min = MinPriceToHouses[selectedType];
   };
 
   var onTypeChange = function () {
@@ -149,8 +149,8 @@
     window.photoPreview.remove();
   };
 
-  var onResetButtonClick = function (event) {
-    event.preventDefault();
+  var onResetButtonClick = function (buttonClickEvt) {
+    buttonClickEvt.preventDefault();
     clearAll();
   };
 
@@ -159,8 +159,8 @@
     successMessage.classList.add('hidden');
   };
 
-  var onPopupEscPress = function (event) {
-    if (event.keyCode === ESC_KEYCODE) {
+  var onPopupEscPress = function (keyboardEvt) {
+    if (keyboardEvt.keyCode === ESC_KEYCODE) {
       closePopup();
       document.removeEventListener('keydown', onPopupEscPress);
     }
@@ -177,8 +177,8 @@
     adForm.classList.add('ad-form--invalid');
   };
 
-  var onFormSubmit = function (event) {
-    event.preventDefault();
+  var onFormSubmit = function (submitEvt) {
+    submitEvt.preventDefault();
     window.backend.upload(new FormData(adForm), onSuccess, window.backend.onError);
   };
 
@@ -228,6 +228,7 @@
   window.validateForm = function () {
     setNumberGuest();
     validateGuests();
+    setMinimalPrice(inputType, inputPrice);
     addFormEventListener();
   };
 
