@@ -10,7 +10,7 @@
   var MAIN_PIN_WIDTH = 65;
   var MAIN_PIN_HEIGTH = 87;
 
-  // Движение пина
+  var mainPin = document.querySelector('.map__pin--main');
 
   var checkPinPosition = function (coordinateX, coordinateY) {
     var dom = window.dom.getElements();
@@ -36,7 +36,6 @@
 
   var movePin = function (mouseDownEvt) {
     var dom = window.dom.getElements();
-    var mainPin = dom.pins.querySelector('.map__pin--main');
 
     mouseDownEvt.preventDefault();
 
@@ -84,7 +83,6 @@
   window.mainPin = {
 
     moveToStart: function () {
-      var mainPin = document.querySelector('.map__pin--main');
       mainPin.style.top = START_PIN_Y + 'px';
       mainPin.style.left = START_PIN_X + 'px';
     },
