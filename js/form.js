@@ -166,7 +166,7 @@
     }
   };
 
-  var onSuccess = function () {
+  var onSuccessLoad = function () {
     var successMessage = document.querySelector('.success');
     successMessage.classList.remove('hidden');
     document.addEventListener('keydown', onPopupEscPress);
@@ -179,7 +179,7 @@
 
   var onFormSubmit = function (submitEvt) {
     submitEvt.preventDefault();
-    window.backend.upload(new FormData(adForm), onSuccess, window.backend.onError);
+    window.backend.upload(new FormData(adForm), onSuccessLoad, window.backend.onError);
   };
 
   var removeFormEventsListener = function () {
@@ -228,7 +228,6 @@
   window.validateForm = function () {
     setNumberGuests();
     validateGuests();
-    setMinimalPrice(inputType, inputPrice);
     addFormEventsListener();
   };
 
