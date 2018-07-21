@@ -26,7 +26,7 @@
     dom.address.value = getAddress(MAIN_PIN_WIDTH, MAIN_PIN_WIDTH / 2);
   };
 
-  var onSuccessLoad = function (array) {
+  var onLoad = function (array) {
     window.houseArray = array.slice();
     window.pins.render(array);
   };
@@ -40,7 +40,7 @@
       window.validateForm();
       dom.address.value = getAddress(MAIN_PIN_WIDTH, MAIN_PIN_HEIGTH);
       changeStateFieldset(dom.fieldsets, false);
-      window.backend.load(onSuccessLoad, window.backend.onError);
+      window.backend.load(onLoad, window.backend.onError);
       window.filter.listenChange();
       window.photoPreview.add();
     }

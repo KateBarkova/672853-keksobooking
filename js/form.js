@@ -166,7 +166,7 @@
     }
   };
 
-  var onSuccessLoad = function () {
+  var onLoad = function () {
     var successMessage = document.querySelector('.success');
     successMessage.classList.remove('hidden');
     document.addEventListener('keydown', onPopupEscPress);
@@ -179,7 +179,7 @@
 
   var onFormSubmit = function (submitEvt) {
     submitEvt.preventDefault();
-    window.backend.upload(new FormData(adForm), onSuccessLoad, window.backend.onError);
+    window.backend.upload(new FormData(adForm), onLoad, window.backend.onError);
   };
 
   var removeFormEventsListener = function () {
