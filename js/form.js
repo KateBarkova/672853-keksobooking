@@ -144,6 +144,7 @@
     dom.form.reset();
     dom.formFilters.reset();
     window.map.setActiveForm();
+    setMinimalPrice(inputType, inputPrice);
     removeFormEventsListener();
     window.filter.removeListener();
     window.photoPreview.remove();
