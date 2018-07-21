@@ -70,19 +70,19 @@
     validateFormPrice(inputPrice);
   };
 
-  var setMinimalPrice = function (element1, element2) {
-    var selectedElement = element1.options[element1.selectedIndex].value;
-    element2.placeholder = MinPriceToHouses[selectedElement];
-    element2.min = MinPriceToHouses[selectedElement];
+  var setMinimalPrice = function (typeObjects, price) {
+    var selectedType = typeObjects.options[typeObjects.selectedIndex].value;
+    price.placeholder = MinPriceToHouses[selectedType];
+    price.min = MinPriceToHouses[selectedType];
   };
 
   var onTypeChange = function () {
     setMinimalPrice(inputType, inputPrice);
   };
 
-  var setChangeTime = function (element1, element2) {
-    var selectedElement = element1.options[element1.selectedIndex].value;
-    element2.value = selectedElement;
+  var setChangeTime = function (selectedTime, setTime) {
+    var selectedElement = selectedTime.options[selectedTime.selectedIndex].value;
+    setTime.value = selectedElement;
   };
 
   var onTimeInChange = function () {
@@ -93,7 +93,7 @@
     setChangeTime(timeOut, timeIn);
   };
 
-  var setNumberGuest = function () {
+  var setNumberGuests = function () {
     var selectedValue = rooms.selectedIndex;
     var selectedArray = RoomsToGuests[selectedValue];
 
@@ -117,7 +117,7 @@
   };
 
   var onRoomChange = function () {
-    setNumberGuest();
+    setNumberGuests();
     validateGuests();
   };
 
@@ -144,13 +144,14 @@
     dom.form.reset();
     dom.formFilters.reset();
     window.map.setActiveForm();
-    removeFormEventListener();
+    setMinimalPrice(inputType, inputPrice);
+    removeFormEventsListener();
     window.filter.removeListener();
     window.photoPreview.remove();
   };
 
-  var onResetButtonClick = function (event) {
-    event.preventDefault();
+  var onResetButtonClick = function (buttonClickEvt) {
+    buttonClickEvt.preventDefault();
     clearAll();
   };
 
@@ -159,14 +160,14 @@
     successMessage.classList.add('hidden');
   };
 
-  var onPopupEscPress = function (event) {
-    if (event.keyCode === ESC_KEYCODE) {
+  var onPopupEscPress = function (keyboardEvt) {
+    if (keyboardEvt.keyCode === ESC_KEYCODE) {
       closePopup();
       document.removeEventListener('keydown', onPopupEscPress);
     }
   };
 
-  var onSuccess = function () {
+  var onLoad = function () {
     var successMessage = document.querySelector('.success');
     successMessage.classList.remove('hidden');
     document.addEventListener('keydown', onPopupEscPress);
@@ -177,12 +178,12 @@
     adForm.classList.add('ad-form--invalid');
   };
 
-  var onFormSubmit = function (event) {
-    event.preventDefault();
-    window.backend.upload(new FormData(adForm), onSuccess, window.backend.onError);
+  var onFormSubmit = function (submitEvt) {
+    submitEvt.preventDefault();
+    window.backend.upload(new FormData(adForm), onLoad, window.backend.onError);
   };
 
-  var removeFormEventListener = function () {
+  var removeFormEventsListener = function () {
     inputTitle.removeEventListener('invalid', onTitleInvalid);
     inputTitle.removeEventListener('input', onTitleInput);
 
@@ -203,11 +204,7 @@
     adForm.removeEventListener('submit', onFormSubmit);
   };
 
-
-  window.validateForm = function () {
-    setNumberGuest();
-    validateGuests();
-
+  var addFormEventsListener = function () {
     inputTitle.addEventListener('invalid', onTitleInvalid);
     inputTitle.addEventListener('input', onTitleInput);
 
@@ -226,6 +223,13 @@
     resetButton.addEventListener('click', onResetButtonClick);
     submitButton.addEventListener('click', onSubmitButtonClick);
     adForm.addEventListener('submit', onFormSubmit);
+  };
+
+
+  window.validateForm = function () {
+    setNumberGuests();
+    validateGuests();
+    addFormEventsListener();
   };
 
 })();

@@ -10,7 +10,7 @@
   var MAIN_PIN_WIDTH = 65;
   var MAIN_PIN_HEIGTH = 87;
 
-  // Движение пина
+  var mainPin = document.querySelector('.map__pin--main');
 
   var checkPinPosition = function (coordinateX, coordinateY) {
     var dom = window.dom.getElements();
@@ -34,28 +34,27 @@
     return {x: coordinateX, y: coordinateY};
   };
 
-  var movePin = function (event1) {
+  var movePin = function (mouseDownEvt) {
     var dom = window.dom.getElements();
-    var mainPin = dom.pins.querySelector('.map__pin--main');
 
-    event1.preventDefault();
+    mouseDownEvt.preventDefault();
 
     var startCoords = {
-      x: event1.clientX,
-      y: event1.clientY
+      x: mouseDownEvt.clientX,
+      y: mouseDownEvt.clientY
     };
 
-    var onMouseMove = function (event2) {
-      event2.preventDefault();
+    var onMouseMove = function (mouseMoveEvt) {
+      mouseMoveEvt.preventDefault();
 
       var shift = {
-        x: startCoords.x - event2.clientX,
-        y: startCoords.y - event2.clientY
+        x: startCoords.x - mouseMoveEvt.clientX,
+        y: startCoords.y - mouseMoveEvt.clientY
       };
 
       startCoords = {
-        x: event2.clientX,
-        y: event2.clientY
+        x: mouseMoveEvt.clientX,
+        y: mouseMoveEvt.clientY
       };
 
       var endCoords = {
@@ -70,8 +69,8 @@
       dom.address.value = window.map.getAddress(MAIN_PIN_WIDTH, MAIN_PIN_HEIGTH);
     };
 
-    var onMouseUp = function (event3) {
-      event3.preventDefault();
+    var onMouseUp = function (mouseUpEvt) {
+      mouseUpEvt.preventDefault();
 
       document.removeEventListener('mousemove', onMouseMove);
       document.removeEventListener('mouseup', onMouseUp);
@@ -84,7 +83,6 @@
   window.mainPin = {
 
     moveToStart: function () {
-      var mainPin = document.querySelector('.map__pin--main');
       mainPin.style.top = START_PIN_Y + 'px';
       mainPin.style.left = START_PIN_X + 'px';
     },

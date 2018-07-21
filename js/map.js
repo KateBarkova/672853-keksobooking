@@ -4,7 +4,9 @@
 
   var MAIN_PIN_WIDTH = 65;
   var MAIN_PIN_HEIGTH = 87;
-  var URL = 'https://js.dump.academy/keksobooking/data';
+  var ENTER_KEYCODE = 13;
+
+  var mainPin = document.querySelector('.map__pin--main');
 
   var changeStateFieldset = function (fieldset, state) {
     Object.keys(fieldset).forEach(function (index) {
@@ -13,9 +15,8 @@
   };
 
   var getAddress = function (widthPin, heightPin) {
-    var mainMapPin = document.querySelector('.map__pin--main');
-    var positionX = Math.round(mainMapPin.offsetLeft + widthPin / 2);
-    var positionY = Math.round(mainMapPin.offsetTop + heightPin);
+    var positionX = Math.round(mainPin.offsetLeft + widthPin / 2);
+    var positionY = Math.round(mainPin.offsetTop + heightPin);
     return positionX + ', ' + positionY;
   };
 
@@ -25,7 +26,7 @@
     dom.address.value = getAddress(MAIN_PIN_WIDTH, MAIN_PIN_WIDTH / 2);
   };
 
-  var successLoad = function (array) {
+  var onLoad = function (array) {
     window.houseArray = array.slice();
     window.pins.render(array);
   };
@@ -39,23 +40,27 @@
       window.validateForm();
       dom.address.value = getAddress(MAIN_PIN_WIDTH, MAIN_PIN_HEIGTH);
       changeStateFieldset(dom.fieldsets, false);
-      window.backend.load(URL, successLoad, window.backend.onError);
+      window.backend.load(onLoad, window.backend.onError);
       window.filter.listenChange();
       window.photoPreview.add();
     }
   };
 
-  var onMainPinMouseDown = function (event) {
-    window.mainPin.move(event);
+  var onMainPinEnterPress = function (keyboardEvt) {
+    if (keyboardEvt.keyCode === ENTER_KEYCODE) {
+      getActiveState();
+    }
+  };
+
+  var onMainPinMouseDown = function (mouseDownEvt) {
+    window.mainPin.move(mouseDownEvt);
     getActiveState();
   };
 
   var render = function () {
-    var mainPin = document.querySelector('.map__pin--main');
-
     setActiveForm();
-
     mainPin.addEventListener('mousedown', onMainPinMouseDown);
+    mainPin.addEventListener('keydown', onMainPinEnterPress);
   };
 
   render();

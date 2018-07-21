@@ -15,38 +15,43 @@
   var guests = filter.querySelector('#housing-guests');
   var features = filter.querySelectorAll('input[name=features]');
 
-
-  var updatePins = function () {
-    var array = window.houseArray;
-    var sameTypeHotels = array.slice();
-
+  var filterTypeHotels = function (array) {
     if (type.value !== 'any') {
-      sameTypeHotels = sameTypeHotels.filter(function (element) {
+      array = array.filter(function (element) {
         return element.offer.type === type.value;
       });
     }
+    return array;
+  };
 
-    var samePriceHotels = sameTypeHotels;
+  var filterPriceHotels = function (array) {
     if (price.value !== 'any') {
-      samePriceHotels = sameTypeHotels.filter(function (element) {
+      array = array.filter(function (element) {
         return element.offer.price >= PriceDescription[price.value][0] && element.offer.price <= PriceDescription[price.value][1];
       });
     }
+    return array;
+  };
 
-    var sameRoomsHotels = samePriceHotels;
+  var filterRoomsHotels = function (array) {
     if (rooms.value !== 'any') {
-      sameRoomsHotels = samePriceHotels.filter(function (element) {
+      array = array.filter(function (element) {
         return element.offer.rooms.toString() === rooms.value;
       });
     }
+    return array;
+  };
 
-    var sameGuestsHotels = sameRoomsHotels;
+  var filterGuestsHotels = function (array) {
     if (guests.value !== 'any') {
-      sameGuestsHotels = sameRoomsHotels.filter(function (element) {
+      array = array.filter(function (element) {
         return element.offer.guests.toString() === guests.value;
       });
     }
+    return array;
+  };
 
+  var filterFeaturesHotels = function (array) {
     var featuresChecked = filter.querySelectorAll('input[name=features]:checked');
     var featuresCheckedArray = Object.keys(featuresChecked).map(function (index) {
       return featuresChecked[index].value;
@@ -54,18 +59,31 @@
 
     var sameFeaturesHotels = [];
 
-    Object.keys(sameGuestsHotels).forEach(function (i) {
+    Object.keys(array).forEach(function (i) {
       var checkArray = [];
       Object.keys(featuresCheckedArray).forEach(function (j) {
-        if (sameGuestsHotels[i].offer.features.indexOf(featuresCheckedArray[j]) !== -1) {
+        if (array[i].offer.features.indexOf(featuresCheckedArray[j]) !== -1) {
           checkArray.push(featuresCheckedArray[j]);
         }
       });
 
       if (checkArray.length === featuresCheckedArray.length) {
-        sameFeaturesHotels.push(sameGuestsHotels[i]);
+        sameFeaturesHotels.push(array[i]);
       }
     });
+
+    return sameFeaturesHotels;
+  };
+
+
+  var updatePins = function () {
+    var hotels = window.houseArray.slice();
+
+    var sameTypeHotels = filterTypeHotels(hotels);
+    var samePriceHotels = filterPriceHotels(sameTypeHotels);
+    var sameRoomsHotels = filterRoomsHotels(samePriceHotels);
+    var sameGuestsHotels = filterGuestsHotels(sameRoomsHotels);
+    var sameFeaturesHotels = filterFeaturesHotels(sameGuestsHotels);
 
     window.pins.remove();
     window.card.remove();
