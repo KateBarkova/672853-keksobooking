@@ -57,7 +57,7 @@
       textRoom = rooms + ' комнаты для ';
     }
 
-    var textGuests = guests === 1 ? guests + ' гостя' : guests + ' гостей'
+    var textGuests = guests === 1 ? guests + ' гостя' : guests + ' гостей';
 
     return textRoom + textGuests;
   };
