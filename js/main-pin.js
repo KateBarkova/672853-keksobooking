@@ -10,7 +10,7 @@
   var MAIN_PIN_WIDTH = 65;
   var MAIN_PIN_HEIGTH = 87;
 
-  var mainPin = document.querySelector('.map__pin--main');
+  var mainPin = window.map.mainPin;
 
   var checkPinPosition = function (coordinateX, coordinateY) {
     var dom = window.dom.getElements();
