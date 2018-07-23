@@ -10,8 +10,6 @@
   var MAIN_PIN_WIDTH = 65;
   var MAIN_PIN_HEIGTH = 87;
 
-  var mainPin = window.map.mainPin;
-
   var checkPinPosition = function (coordinateX, coordinateY) {
     var dom = window.dom.getElements();
     var minTop = MIN_Y - MAIN_PIN_HEIGTH;
@@ -58,14 +56,14 @@
       };
 
       var endCoords = {
-        x: mainPin.offsetLeft - shift.x,
-        y: mainPin.offsetTop - shift.y
+        x: window.map.mainPin.offsetLeft - shift.x,
+        y: window.map.mainPin.offsetTop - shift.y
       };
 
       endCoords = checkPinPosition(endCoords.x, endCoords.y);
 
-      mainPin.style.top = endCoords.y + 'px';
-      mainPin.style.left = endCoords.x + 'px';
+      window.map.mainPin.style.top = endCoords.y + 'px';
+      window.map.mainPin.style.left = endCoords.x + 'px';
       dom.address.value = window.map.getAddress(MAIN_PIN_WIDTH, MAIN_PIN_HEIGTH);
     };
 
@@ -83,8 +81,8 @@
   window.mainPin = {
 
     moveToStart: function () {
-      mainPin.style.top = START_PIN_Y + 'px';
-      mainPin.style.left = START_PIN_X + 'px';
+      window.map.mainPin.style.top = START_PIN_Y + 'px';
+      window.map.mainPin.style.left = START_PIN_X + 'px';
     },
 
     move: movePin
