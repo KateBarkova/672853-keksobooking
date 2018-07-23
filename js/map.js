@@ -67,7 +67,8 @@
 
   window.map = {
     setActiveForm: setActiveForm,
-    getAddress: getAddress
+    getAddress: getAddress,
+    mainPin: mainPin
   };
 
 })();
